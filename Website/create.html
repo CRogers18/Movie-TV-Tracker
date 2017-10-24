@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="styles/create.css">
 
 </head>
 <body>
@@ -20,10 +21,82 @@
 		</div>
 	</nav>
 	<div class="container">
-		<div class="card">
-			<div class="card-header">Create Media</div>
-			<div class="card-block">
-				stuff
+		<div class="row">
+			<div class="col">
+			<div class="card">
+				<div class="card-header">Create Media</div>
+					<div class="card-block">
+						<form>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="mediaName">Media Name</label>
+									<input type="text" class="form-control" id="mediaName" placeholder="Name">
+								</div>
+								<div class="form-group col-md-3">
+									<label for="mediaFormat">Format</label>
+									<select name="Format" id="mediaFormat" class="form-control">
+										<option selected disabled>Choose...</option>
+		                    			<option>Movie</option>
+		                    			<option>TV Show</option>
+		                    		</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label for="category">Category</label>
+									<select name="Category" id="mediaCategory" class="form-control">
+										<option selected disabled>Choose...</option>
+		                    			<option>Action</option>
+		                    			<option>Adventure</option>
+		                    			<option>Comedy</option>
+		                    			<option>Drama</option>
+		                    			<option>Fantasy</option>
+		                    			<option>Horror</option>
+		                    			<option>Mystery</option>
+		                    			<option>Romance</option>
+		                    			<option>Sci-Fi</option>
+		                    			<option>Thriller</option>
+		                    		</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="mediaDescription">Description</label>
+								<textarea class="form-control" id="mediaDescription" rows="3" placeholder="Description"></textarea>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="mediaCast">Cast</label>
+									<input type="text" class="form-control" id="mediaCast">
+								</div>
+								<div class="form-group col-md-3">
+									<label for="mediaTrailerLink">Trailer Link</label>
+									<input type="text" class="form-control" id="mediaTrailerLink">
+								</div>
+								<div class="form-group col-md-3">
+									<label for="mediaReleaseDate">Release Date</label>
+									<input type="text" class="form-control" id="mediaReleaseDate">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="mediaImage">Upload Image</label>
+									<div class="input-group">
+										<span class="input-group-btn">
+											<span class="btn btn-file">
+												Browse… <input type="file" id="mediaImage">
+											</span>
+										</span>
+										<input type="text" class="form-control" readonly>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<img id='img-upload'/>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="card-footer">
+						<button type = "button" class="btn btn-success float-right">Submit</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
