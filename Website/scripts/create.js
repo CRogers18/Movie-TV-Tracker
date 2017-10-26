@@ -36,16 +36,6 @@ $(document).on('change', '.btn-file :file', function()
 		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 	input.trigger('fileselect', [label]);
 });
-
-$('#submitButton').on('click', function() 
-{
-	if(validateData())
-	{
-		addMedia();
-		window.location.href = 'index.html';
-	}
-});
-
 $('.btn-file :file').on('fileselect', function(event, label) 
 {
 	var input = $(this).parents('.input-group').find(':text'),
@@ -60,7 +50,6 @@ $('.btn-file :file').on('fileselect', function(event, label)
 	}
 	
 });
-
 function readURL(input)
 {
 	if (input.files && input.files[0]) 
@@ -73,10 +62,18 @@ function readURL(input)
 	reader.readAsDataURL(input.files[0]);
 	}
 }
-
 $("#mediaImage").change(function()
 {
 	readURL(this);
+});
+
+$('#submitButton').on('click', function() 
+{
+	if(validateData())
+	{
+		addMedia();
+		window.location.href = 'index.html';
+	}
 });
 
 function validateData()

@@ -19,3 +19,8 @@ $('#loginButton').on('click', function()
 	uname = $('#username').val();
 	pword = $('#password').val();
 });
+
+$('#createAccountButton').on('click', function()
+{
+	window.location.href = 'accountCreate.html';
+});
