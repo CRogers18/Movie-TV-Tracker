@@ -22,6 +22,7 @@ var database = firebase.database();
 
 var mediaDbDataList = database.ref('media/');
 //retrieve data
+//TODO - retrieve only curr user's data
 mediaDbDataList.on('child_added', function(data) 
 {
 	table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, data.val().releaseDate]).draw(false);

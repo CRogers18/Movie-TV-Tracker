@@ -1,0 +1,21 @@
+//database connection
+var config = {
+	apiKey: "AIzaSyCt6z6XTg0HFZqKyyXhMDPicSYmgu_2XwM",
+	authDomain: "poosd-test.firebaseapp.com",
+	databaseURL: "https://poosd-test.firebaseio.com",
+	projectId: "poosd-test",
+	storageBucket: "poosd-test.appspot.com",
+	messagingSenderId: "1087046017322"
+};
+firebase.initializeApp(config);
+var database = firebase.database();
+var usersDb = database.ref('users/');
+
+var uname;
+var pword;
+
+$('#loginButton').on('click', function() 
+{
+	uname = $('#username').val();
+	pword = $('#password').val();
+});
