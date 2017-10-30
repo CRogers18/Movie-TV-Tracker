@@ -82,6 +82,7 @@ function validateData()
 	var isValid = true;
 	$("input, select, textarea").each(function() {
 		var element = $(this);
+		element.removeClass("is-invalid");
 		if (element.val() == "" || element.val() == null)
 		{
 			isValid = false;
