@@ -72,7 +72,12 @@ $('#submitButton').on('click', function()
 	if(validateData())
 	{
 		addMedia();
-		window.location.href = 'index.html';
+		$("#submitProgressBar").animate({
+			    width: "100%"
+			}, 1000);
+		setTimeout(function(){
+    		window.location.href = 'index.html';
+		}, 1000);
 	}
 });
 
@@ -108,10 +113,8 @@ function addMedia()
 	var mediaUploader= "TODO"; //need to get user system figured out first
 	var mediaCast = document.getElementById('mediaCast').value;
 	var mediaTrailerLink = document.getElementById('mediaTrailerLink').value;
-	
 	var storageRef = firebase.storage().ref(mediaName);
 	storageRef.put(actualImageFile);
-	
 	addMediaToDB(mediaId, mediaName, mediaDescription, mediaReleaseDate, mediaImage, mediaCategory, mediaFormat, mediaUploader, mediaCast, mediaTrailerLink);
 }
 
