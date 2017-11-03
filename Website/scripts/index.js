@@ -40,3 +40,8 @@ var table = $('#mediaTable').DataTable({
         ]
 });
 
+$('#mediaTable tbody').on('click', 'tr', function() {
+    var selectedID = table.rows(this).data()[0][0];
+    window.location.href = 'edit.html?id='+selectedID;
+});
+
