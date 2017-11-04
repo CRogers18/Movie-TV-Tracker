@@ -1,5 +1,5 @@
 //variables
-var numRecords = 0;
+var maxRecordId = 0;
 
 //navbar stuff
 $('#createButton').on('click', function() 
@@ -9,6 +9,12 @@ $('#createButton').on('click', function()
 $('#accountButton').on('click', function() 
 {
 	window.location.href = 'account.html';
+});
+
+//datepicker initialize
+$('#mediaReleaseDate').datepicker({
+    uiLibrary: 'bootstrap4',
+    iconsLibrary: 'fontawesome'
 });
 
 //database connection
@@ -26,7 +32,10 @@ var database = firebase.database();
 var mediaDbDataList = database.ref('media/');
 mediaDbDataList.on('child_added', function(data) 
 {
-	numRecords++;
+	if(data.val().id > maxRecordId)
+	{
+		maxRecordId = data.val().id;
+	}
 });
 
 //image upload 
@@ -102,7 +111,7 @@ function validateData()
 
 function addMedia()
 {
-	var mediaId = numRecords+1;
+	var mediaId = maxRecordId+1;
 	var mediaName = document.getElementById('mediaName').value;
 	var mediaDescription = document.getElementById('mediaDescription').value;
 	var mediaReleaseDate = document.getElementById('mediaReleaseDate').value;

@@ -8,6 +8,12 @@ $('#accountButton').on('click', function()
 	window.location.href = 'account.html';
 });
 
+//datepicker initialize
+$('#mediaReleaseDate').datepicker({
+    uiLibrary: 'bootstrap4',
+    iconsLibrary: 'fontawesome'
+});
+
 var currData;
 var url = new URL(window.location.href);
 var currID = parseInt(url.searchParams.get("id"));
