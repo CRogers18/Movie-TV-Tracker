@@ -111,10 +111,15 @@ function validateData()
 
 function addMedia()
 {
+	//format release date in unix timestamp
+	var releaseDateObject = new Date(document.getElementById('mediaReleaseDate').value);
+	var releaseDateUnix = Math.round(releaseDateObject.getTime()/1000);
+	
+	//put all values in variables
 	var mediaId = maxRecordId+1;
 	var mediaName = document.getElementById('mediaName').value;
 	var mediaDescription = document.getElementById('mediaDescription').value;
-	var mediaReleaseDate = document.getElementById('mediaReleaseDate').value;
+	var mediaReleaseDate = releaseDateUnix;
 	var mediaImage = document.getElementById('mediaImage').value;
 	var actualImageFile = document.getElementById('mediaImage').files[0];
 	var mediaCategory = document.getElementById('mediaCategory').value;

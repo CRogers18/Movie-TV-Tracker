@@ -25,7 +25,10 @@ var mediaDbDataList = database.ref('media/');
 //TODO - retrieve only curr user's data
 mediaDbDataList.on('child_added', function(data) 
 {
-	table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, data.val().releaseDate]).draw(false);
+    var releaseDateTemp = new Date(0);
+    releaseDateTemp.setUTCSeconds(data.val().releaseDate);
+    var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' +  releaseDateTemp.getFullYear();
+	table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, releaseDateStandard]).draw(false);
 });
 
 //create datatable

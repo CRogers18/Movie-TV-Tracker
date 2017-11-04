@@ -38,13 +38,16 @@ var query = mediaRef.orderByChild('id').equalTo(currID);
 query.on("value", function(snapshot) {
 	snapshot.forEach(function(data) {
 		currData = data.val();
+		var releaseDateTemp = new Date(0);
+		releaseDateTemp.setUTCSeconds(currData.releaseDate);
+		var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' +  releaseDateTemp.getFullYear();
 		$('#mediaName').val(currData.title);
 		$('#mediaFormat').val(currData.format);
 		$('#mediaCategory').val(currData.category);
 		$('#mediaDescription').val(currData.description);
 		$('#mediaCast').val(currData.cast);
 		$('#mediaTrailerLink').val(currData.trailerLink);
-		$('#mediaReleaseDate').val(currData.releaseDate);
+		$('#mediaReleaseDate').val(releaseDateStandard);
 		imageRef = storageRef.child(currData.title).getDownloadURL().then(function(url) {
 			document.querySelector('img').src = url;
 		}).catch(function(error) {
