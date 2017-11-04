@@ -48,6 +48,7 @@ query.on("value", function(snapshot) {
 		$('#mediaCast').val(currData.cast);
 		$('#mediaTrailerLink').val(currData.trailerLink);
 		$('#mediaReleaseDate').val(releaseDateStandard);
+		$('#mediaImageName').val(currData.image);
 		imageRef = storageRef.child(currData.title).getDownloadURL().then(function(url) {
 			document.querySelector('img').src = url;
 		}).catch(function(error) {
@@ -57,16 +58,47 @@ query.on("value", function(snapshot) {
 });
 
 $('#saveButton').on('click', function() {
-	query.once("child_added", function(snapshot) {
-		snapshot.ref.update({ 
-			title: $('#mediaName').val(),
-			format: $('#mediaFormat').val(),
-			category: $('#mediaCategory').val(),
-			description: $('#mediaDescription').val(),
-			cast: $('#mediaCast').val(),
-			trailerLink: $('#mediaTrailerLink').val(),
-			releaseDate: $('#mediaReleaseDate').val()
-		})
-	});
-	window.location.href = 'index.html';
+	//TODO fix validation once image upload is fixed
+	//if(validateData())
+	//{
+		//format release date in unix timestamp
+		var releaseDateObject = new Date(document.getElementById('mediaReleaseDate').value);
+		var releaseDateUnix = Math.round(releaseDateObject.getTime()/1000);
+	
+		query.once("child_added", function(snapshot) {
+			snapshot.ref.update({ 
+				title: $('#mediaName').val(),
+				format: $('#mediaFormat').val(),
+				category: $('#mediaCategory').val(),
+				description: $('#mediaDescription').val(),
+				cast: $('#mediaCast').val(),
+				trailerLink: $('#mediaTrailerLink').val(),
+				releaseDate: releaseDateUnix
+			})
+		});
+		window.location.href = 'index.html';
+	//}
+	//else 
+	//{
+	//	document.body.scrollTop = document.documentElement.scrollTop = 0;
+	//}
 });
+
+function validateData()
+{
+	$('#inputErrorAlert').attr("hidden");
+	var isValid = true;
+	$("input, select, textarea").each(function() {
+		var element = $(this);
+		element.removeClass("is-invalid");
+		if (element.val() == "" || element.val() == null)
+		{
+			console.log(element);
+			isValid = false;
+			$('#inputErrorAlert').removeAttr("hidden");
+			element.addClass("is-invalid");
+		}
+	});
+
+	return isValid;
+}
