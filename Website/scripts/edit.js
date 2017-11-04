@@ -25,9 +25,11 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var mediaRef = database.ref('media/');
 var storageRef = firebase.storage().ref();
-var spaceRef;
+var imageRef;
 
-mediaRef.orderByChild('id').equalTo(currID).on("value", function(snapshot) {
+var query = mediaRef.orderByChild('id').equalTo(currID);
+
+query.on("value", function(snapshot) {
 	snapshot.forEach(function(data) {
 		currData = data.val();
 		$('#mediaName').val(currData.title);
@@ -37,7 +39,7 @@ mediaRef.orderByChild('id').equalTo(currID).on("value", function(snapshot) {
 		$('#mediaCast').val(currData.cast);
 		$('#mediaTrailerLink').val(currData.trailerLink);
 		$('#mediaReleaseDate').val(currData.releaseDate);
-		spaceRef = storageRef.child(currData.title).getDownloadURL().then(function(url) {
+		imageRef = storageRef.child(currData.title).getDownloadURL().then(function(url) {
 			document.querySelector('img').src = url;
 		}).catch(function(error) {
 			console.log(error);
@@ -45,4 +47,17 @@ mediaRef.orderByChild('id').equalTo(currID).on("value", function(snapshot) {
 	});
 });
 
-
+$('#saveButton').on('click', function() {
+	query.once("child_added", function(snapshot) {
+		snapshot.ref.update({ 
+			title: $('#mediaName').val(),
+			format: $('#mediaFormat').val(),
+			category: $('#mediaCategory').val(),
+			description: $('#mediaDescription').val(),
+			cast: $('#mediaCast').val(),
+			trailerLink: $('#mediaTrailerLink').val(),
+			releaseDate: $('#mediaReleaseDate').val()
+		})
+	});
+	window.location.href = 'index.html';
+});
