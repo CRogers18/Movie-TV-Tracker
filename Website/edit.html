@@ -13,8 +13,7 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link href="http://code.gijgo.com/1.6.1/css/gijgo.css" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="styles/create.css">
-	<link rel="stylesheet" href="styles/create.css">
+	<link rel="stylesheet" href="styles/edit.css">
 
 </head>
 <body>
@@ -38,11 +37,11 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="mediaName">Media Name</label>
-									<input type="text" class="form-control" id="mediaName" placeholder="Name">
+									<input type="text" class="form-control required" id="mediaName" placeholder="Name">
 								</div>
 								<div class="form-group col-md-3">
 									<label for="mediaFormat">Format</label>
-									<select name="Format" id="mediaFormat" class="form-control">
+									<select name="Format" id="mediaFormat" class="form-control required">
 										<option selected disabled>Choose...</option>
 		                    			<option>Movie</option>
 		                    			<option>TV Show</option>
@@ -50,7 +49,7 @@
 								</div>
 								<div class="form-group col-md-3">
 									<label for="category">Category</label>
-									<select name="Category" id="mediaCategory" class="form-control">
+									<select name="Category" id="mediaCategory" class="form-control required">
 										<option selected value=" " disabled>Choose...</option>
 		                    			<option>Action</option>
 		                    			<option>Adventure</option>
@@ -67,20 +66,20 @@
 							</div>
 							<div class="form-group">
 								<label for="mediaDescription">Description</label>
-								<textarea class="form-control" id="mediaDescription" rows="3" placeholder="Description"></textarea>
+								<textarea class="form-control required" id="mediaDescription" rows="3" placeholder="Description"></textarea>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="mediaCast">Cast</label>
-									<input type="text" class="form-control" id="mediaCast">
+									<input type="text" class="form-control required" id="mediaCast">
 								</div>
 								<div class="form-group col-md-3">
 									<label for="mediaTrailerLink">Trailer Link</label>
-									<input type="text" class="form-control" id="mediaTrailerLink">
+									<input type="text" class="form-control required" id="mediaTrailerLink">
 								</div>
 								<div class="form-group col-md-3">
 									<label for="mediaReleaseDate">Release Date</label>
-									<input class="form-control" id="mediaReleaseDate"/>
+									<input class="form-control required" id="mediaReleaseDate"/>
 								</div>
 							</div>
 							<div class="form-row">
@@ -102,7 +101,16 @@
 						</form>
 					</div>
 					<div class="card-footer">
-						<button id="saveButton" type = "button" class="btn btn-success float-right">Save</button>
+						<div class="row">
+							<div class="col-md-10 progress-container">
+							    <div class="progress active">
+							        <div id="submitProgressBar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width:0%"></div>
+							    </div>
+							</div>
+							<div class="col-md-2 float-right">
+								<button id="saveButton" type = "button" class="btn btn-success float-right">Save</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 //variables
 var maxRecordId = 0;
+var numImages = 1;
 
 //navbar stuff
 $('#createButton').on('click', function() 
@@ -85,7 +86,7 @@ $('#submitButton').on('click', function()
 			    width: "100%"
 			}, 1000);
 		setTimeout(function(){
-    		window.location.href = 'index.html';
+    		//window.location.href = 'index.html';
 		}, 1000);
 	}
 });
@@ -151,7 +152,7 @@ function addImageAttempt(mediaId, image, imageId){
 			addImageAttempt(mediaId,image,imageId+1);
 		}).catch(
 		function(error){
-			console.log("FAILED")
+			console.log("FAILED");
 			testRef.put(image);
 	});
 }
@@ -190,3 +191,35 @@ firebase.auth().onAuthStateChanged(function(user){
 		console.log("not signed in");
 	}
 })
+
+//Add multiple images
+$('#addImageButton').on('click', function() {
+	addImageStuff();
+});
+
+function addImageStuff()
+{
+	numImages++;
+	addImageUploader();
+	addAddImageButtons();
+}
+function addImageUploader()
+{
+ 	$("#theForm").append("<div id='newImageUploader' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage' imgNum='1'></span></span><input type='text' class='form-control' id='mediaImageName' imgNum="+numImages+" readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload' imgNum='1'/></div></div>");
+
+}
+function addAddImageButtons()
+{
+	$('#addImageRow').remove();
+	$("#theForm").append("<div id='addImageRow' class='form-row'><div class='form-group'><button id='addImageButton'  type='button' class='btn btn-outline-dark addImageButton' onclick='addImageStuff()'>Add Image</button></div></div>");
+	$('#addImageRow').append("<div class='form-group col-md-3'><button id='removeImageButton' type='button' class='btn btn-outline-danger removeImageButton' onclick='removeImageButtons()'>Remove Image</button></div>")
+}
+function removeImageButtons()
+{
+	numImages--;
+	if(numImages == 1)
+	{
+		$('#removeImageButton').remove();
+	}
+	$('#newImageUploader').remove();
+}

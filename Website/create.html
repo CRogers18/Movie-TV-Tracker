@@ -31,7 +31,7 @@
 						<div id="inputErrorAlert" class="alert alert-danger" role="alert" hidden>
 							Error! Please fix the highlighted fields and try again. 
 						</div>
-						<form>
+						<form id="theForm">
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="mediaName">Media Name</label>
@@ -81,19 +81,25 @@
 								</div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-3">
+								<div class="form-group col-md-5">
 									<label for="mediaImage">Upload Image</label>
 									<div class="input-group">
 										<span class="input-group-btn">
 											<span class="btn btn-light btn-file" type="button">
-												Browse <input type="file" id="mediaImage">
+												Browse <input type="file" id="mediaImage" imgNum="1">
 											</span>
 										</span>
-										<input type="text" class="form-control" readonly>
+										<input type="text" class="form-control" id="mediaImageName" imgNum="1" readonly>
 									</div>
 								</div>
+								<div class="col-md-1"></div>
 								<div class="col-md-3">
-									<img id='img-upload'/>
+									<img id='img-upload' imgNum="1"/>
+								</div>
+							</div>
+							<div id="addImageRow" class="form-row">
+								<div class="form-group col-md-3">
+									<button id="addImageButton" type="button" class="btn btn-outline-dark addImageButton">Add Image</button>
 								</div>
 							</div>
 						</form>

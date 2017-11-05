@@ -8,6 +8,8 @@ $('#accountButton').on('click', function()
 	window.location.href = 'account.html';
 });
 
+var email;
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyCt6z6XTg0HFZqKyyXhMDPicSYmgu_2XwM",
@@ -28,7 +30,10 @@ mediaDbDataList.on('child_added', function(data)
     var releaseDateTemp = new Date(0);
     releaseDateTemp.setUTCSeconds(data.val().releaseDate);
     var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' +  releaseDateTemp.getFullYear();
-	table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, releaseDateStandard]).draw(false);
+    // if(data.val().uploader === email)
+    // {
+	   table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, releaseDateStandard]).draw(false);
+    // }
 });
 
 //create datatable
@@ -51,7 +56,7 @@ $('#mediaTable tbody').on('click', 'tr', function() {
 //Gets info of current user
 firebase.auth().onAuthStateChanged(function(user){
     if(user){
-        var email = user.email;
+        email = user.email;
         var uid = user.uid;
 
         console.log(email+" "+" "+uid);

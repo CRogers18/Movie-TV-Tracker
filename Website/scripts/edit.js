@@ -59,8 +59,8 @@ query.on("value", function(snapshot) {
 
 $('#saveButton').on('click', function() {
 	//TODO fix validation once image upload is fixed
-	//if(validateData())
-	//{
+	if(validateData())
+	{
 		//format release date in unix timestamp
 		var releaseDateObject = new Date(document.getElementById('mediaReleaseDate').value);
 		var releaseDateUnix = Math.round(releaseDateObject.getTime()/1000);
@@ -76,31 +76,53 @@ $('#saveButton').on('click', function() {
 				releaseDate: releaseDateUnix
 			})
 		});
-		window.location.href = 'index.html';
-	//}
-	//else 
-	//{
-	//	document.body.scrollTop = document.documentElement.scrollTop = 0;
-	//}
+		addImage(currID, document.getElementById('mediaImage').files[0]);
+		// $("#submitProgressBar").animate({
+		// 	    width: "100%"
+		// 	}, 1000);
+		// setTimeout(function(){
+    		window.location.href = 'index.html';
+		// }, 1000);
+	}
+	else
+	{
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
+	}
 });
 
 function validateData()
 {
 	$('#inputErrorAlert').attr("hidden");
 	var isValid = true;
-	$("input, select, textarea").each(function() {
+	$(".required").each(function() {
 		var element = $(this);
 		element.removeClass("is-invalid");
 		if (element.val() == "" || element.val() == null)
 		{
-			console.log(element);
 			isValid = false;
 			$('#inputErrorAlert').removeAttr("hidden");
 			element.addClass("is-invalid");
 		}
 	});
-
 	return isValid;
+}
+
+function addImage(mediaId,image){
+	addImageAttempt(mediaId,image,0);
+}
+
+function addImageAttempt(mediaId, image, imageId){
+	console.log(imageId);
+	var testRef = firebase.storage().ref(mediaId+"_"+imageId);
+	testRef.getDownloadURL().then(
+		function(url){
+			console.log(url)
+			addImageAttempt(mediaId,image,imageId+1);
+		}).catch(
+		function(error){
+			console.log("FAILED")
+			testRef.put(image);
+	});
 }
 
 //Gets info of current user
