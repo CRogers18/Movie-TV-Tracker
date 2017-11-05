@@ -1,6 +1,6 @@
 //variables
 var maxRecordId = 0;
-var numImages = 1;
+var numImages = 0;
 
 //navbar stuff
 $('#createButton').on('click', function() 
@@ -46,7 +46,8 @@ $(document).on('change', '.btn-file :file', function()
 		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 	input.trigger('fileselect', [label]);
 });
-$('.btn-file :file').on('fileselect', function(event, label) 
+//$('.btn-file :file').on('fileselect', function(event, label) 
+$(document).on('fileselect', '.btn-file :file', function(event, label)
 {
 	var input = $(this).parents('.input-group').find(':text'),
 	log = label;
@@ -67,12 +68,12 @@ function readURL(input)
 		var reader = new FileReader();
 		reader.onload = function (e) 
 		{
-			$('#img-upload').attr('src', e.target.result);
+			$('#img-upload_'+input.getAttribute("imgNum")).attr('src', e.target.result);
 		}
 	reader.readAsDataURL(input.files[0]);
 	}
 }
-$("#mediaImage").change(function()
+$(document).on('change', '.mediaImage', function()
 {
 	readURL(this);
 });
@@ -84,10 +85,10 @@ $('#submitButton').on('click', function()
 		addMedia();
 		$("#submitProgressBar").animate({
 			    width: "100%"
-			}, 1000);
+			}, 1000*numImages);
 		setTimeout(function(){
-    		//window.location.href = 'index.html';
-		}, 1000);
+    		window.location.href = 'index.html';
+		}, 1000*numImages);
 	}
 });
 
@@ -121,26 +122,30 @@ function addMedia()
 	var mediaName = document.getElementById('mediaName').value;
 	var mediaDescription = document.getElementById('mediaDescription').value;
 	var mediaReleaseDate = releaseDateUnix;
-	var mediaImage = document.getElementById('mediaImage').value;
-	var actualImageFile = document.getElementById('mediaImage').files[0];
+	var mediaImage = document.getElementById('mediaImage_0').value;
 	var mediaCategory = document.getElementById('mediaCategory').value;
 	var mediaFormat = document.getElementById('mediaFormat').value;
 	var currentUser = firebase.auth().currentUser;
 	if(currentUser){
-		var mediaUploader= currentUser.email; //need to get user system figured out first
+		var mediaUploader= currentUser.email; 
 	} else {
+		mediaUploader = "N/A";
 		console.log("failed to find current user");
 	}
 	var mediaCast = document.getElementById('mediaCast').value;
 	var mediaTrailerLink = document.getElementById('mediaTrailerLink').value;
 
-	addImage(mediaId,actualImageFile);
+	for(i = 0; i < numImages + 1; i++)
+	{
+		console.log(i);
+		addImage(mediaId, document.getElementById('mediaImage_'+i).files[0], i);
+	}
 	
 	addMediaToDB(mediaId, mediaName, mediaDescription, mediaReleaseDate, mediaImage, mediaCategory, mediaFormat, mediaUploader, mediaCast, mediaTrailerLink);
 }
 
-function addImage(mediaId,image){
-	addImageAttempt(mediaId,image,0);
+function addImage(mediaId,image,imgNum){
+	addImageAttempt(mediaId,image,imgNum);
 }
 
 function addImageAttempt(mediaId, image, imageId){
@@ -192,11 +197,10 @@ firebase.auth().onAuthStateChanged(function(user){
 	}
 })
 
-//Add multiple images
+//Add/remove multiple images ui elements
 $('#addImageButton').on('click', function() {
 	addImageStuff();
 });
-
 function addImageStuff()
 {
 	numImages++;
@@ -205,7 +209,7 @@ function addImageStuff()
 }
 function addImageUploader()
 {
- 	$("#theForm").append("<div id='newImageUploader' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage' imgNum='1'></span></span><input type='text' class='form-control' id='mediaImageName' imgNum="+numImages+" readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload' imgNum='1'/></div></div>");
+ 	$("#theForm").append("<div id='newImageUploader' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage_"+numImages+"' class='mediaImage' imgNum='"+numImages+"'></span></span><input type='text' class='form-control' id='mediaImageName' readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload_"+numImages+"' imgNum='"+numImages+"' class='img_upload'/></div></div>");
 
 }
 function addAddImageButtons()
@@ -217,7 +221,7 @@ function addAddImageButtons()
 function removeImageButtons()
 {
 	numImages--;
-	if(numImages == 1)
+	if(numImages == 0)
 	{
 		$('#removeImageButton').remove();
 	}
