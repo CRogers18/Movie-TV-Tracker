@@ -124,7 +124,12 @@ function addMedia()
 	var actualImageFile = document.getElementById('mediaImage').files[0];
 	var mediaCategory = document.getElementById('mediaCategory').value;
 	var mediaFormat = document.getElementById('mediaFormat').value;
-	var mediaUploader= "TODO"; //need to get user system figured out first
+	var currentUser = firebase.auth().currentUser;
+	if(currentUser){
+		var mediaUploader= currentUser.email; //need to get user system figured out first
+	} else {
+		console.log("failed to find current user");
+	}
 	var mediaCast = document.getElementById('mediaCast').value;
 	var mediaTrailerLink = document.getElementById('mediaTrailerLink').value;
 
@@ -172,3 +177,16 @@ function addMediaToDB(mediaId, name, mediaDescription, mediaReleaseDate, mediaIm
 		}
 	});
 }
+
+//Gets info of current user
+firebase.auth().onAuthStateChanged(function(user){
+	if(user){
+		var email = user.email;
+		var uid = user.uid;
+
+		console.log(email+" "+" "+uid);
+
+	}else{
+		console.log("not signed in");
+	}
+})

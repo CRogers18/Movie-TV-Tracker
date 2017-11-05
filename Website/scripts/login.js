@@ -24,3 +24,15 @@ $('#createAccountButton').on('click', function()
 {
 	window.location.href = 'accountCreate.html';
 });
+
+//Gets info of current user
+firebase.auth().onAuthStateChanged(function(user){
+    if(user){
+        var email = user.email;
+        var uid = user.uid;
+
+        console.log(email+" "+" "+uid);
+    }else{
+        console.log("not signed in");
+    }
+})

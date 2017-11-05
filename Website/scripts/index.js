@@ -48,3 +48,14 @@ $('#mediaTable tbody').on('click', 'tr', function() {
     window.location.href = 'edit.html?id='+selectedID;
 });
 
+//Gets info of current user
+firebase.auth().onAuthStateChanged(function(user){
+    if(user){
+        var email = user.email;
+        var uid = user.uid;
+
+        console.log(email+" "+" "+uid);
+    }else{
+        console.log("not signed in");
+    }
+})

@@ -8,6 +8,7 @@ var config = {
 	storageBucket: "poosd-test.appspot.com",
 	messagingSenderId: "1087046017322"
 };
+
 firebase.initializeApp(config);
 var database = firebase.database();
 
@@ -22,9 +23,42 @@ function addUser()
 	var profileImage = document.getElementById('profileImage').value;
 	document.getElementById('profileImage').value="";
 
-	console.log(username);
-	addUserToDB(username, password, profileImage);
+	createUser(username,password);
+	// addUserToDB(username, password, profileImage);
 }
+
+//Creates a new user
+function createUser(email, password){
+	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(function (user){
+		firebase.auth().createUserWithEmailAndPassword(email,password).catch(function(error){
+			console.log(error.code+": "+error.message);
+		});
+	});
+}
+
+//Logs user in
+function logInUser(email, password){
+	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(function (){
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error){
+			console.log(error.code+": "+error.message);
+		});
+	});
+}
+
+//Gets info of current user
+firebase.auth().onAuthStateChanged(function(user){
+	if(user){
+		var email = user.email;
+		var uid = user.uid;
+
+		console.log(email+" "+" "+uid);
+
+		window.location.href = 'login.html';
+	}else{
+		console.log("not signed in");
+	}
+})
+
 
 function addUserToDB(username, password, profileImage)
 {
@@ -91,7 +125,7 @@ $('#submitNewAccountButton').on('click', function()
 	if(validate())
 	{
 		addUser();
-		window.location.href = 'login.html';
+		
 	}
 });
 
