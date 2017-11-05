@@ -127,9 +127,28 @@ function addMedia()
 	var mediaUploader= "TODO"; //need to get user system figured out first
 	var mediaCast = document.getElementById('mediaCast').value;
 	var mediaTrailerLink = document.getElementById('mediaTrailerLink').value;
-	var storageRef = firebase.storage().ref(mediaName);
-	storageRef.put(actualImageFile);
+
+	addImage(mediaId,actualImageFile);
+	
 	addMediaToDB(mediaId, mediaName, mediaDescription, mediaReleaseDate, mediaImage, mediaCategory, mediaFormat, mediaUploader, mediaCast, mediaTrailerLink);
+}
+
+function addImage(mediaId,image){
+	addImageAttempt(mediaId,image,0);
+}
+
+function addImageAttempt(mediaId, image, imageId){
+	console.log(imageId);
+	var testRef = firebase.storage().ref(mediaId+"_"+imageId);
+	testRef.getDownloadURL().then(
+		function(url){
+			console.log(url)
+			addImageAttempt(mediaId,image,imageId+1);
+		}).catch(
+		function(error){
+			console.log("FAILED")
+			testRef.put(image);
+	});
 }
 
 function addMediaToDB(mediaId, name, mediaDescription, mediaReleaseDate, mediaImage, mediaCategory, mediaFormat, mediaUploader, mediaCast, mediaTrailerLink){
