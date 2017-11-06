@@ -46,7 +46,6 @@ $(document).on('change', '.btn-file :file', function()
 		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 	input.trigger('fileselect', [label]);
 });
-//$('.btn-file :file').on('fileselect', function(event, label) 
 $(document).on('fileselect', '.btn-file :file', function(event, label)
 {
 	var input = $(this).parents('.input-group').find(':text'),
@@ -122,7 +121,7 @@ function addMedia()
 	var mediaName = document.getElementById('mediaName').value;
 	var mediaDescription = document.getElementById('mediaDescription').value;
 	var mediaReleaseDate = releaseDateUnix;
-	var mediaImage = document.getElementById('mediaImage_0').value;
+	var mediaImage = numImages;
 	var mediaCategory = document.getElementById('mediaCategory').value;
 	var mediaFormat = document.getElementById('mediaFormat').value;
 	var currentUser = firebase.auth().currentUser;
@@ -137,7 +136,6 @@ function addMedia()
 
 	for(i = 0; i < numImages + 1; i++)
 	{
-		console.log(i);
 		addImage(mediaId, document.getElementById('mediaImage_'+i).files[0], i);
 	}
 	

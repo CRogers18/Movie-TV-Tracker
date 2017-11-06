@@ -1,3 +1,7 @@
+//variables
+var numImages = 0;
+var j = 0;
+
 //navbar stuff
 $('#createButton').on('click', function() 
 {
@@ -49,12 +53,58 @@ query.on("value", function(snapshot) {
 		$('#mediaTrailerLink').val(currData.trailerLink);
 		$('#mediaReleaseDate').val(releaseDateStandard);
 		$('#mediaImageName').val(currData.image);
-		imageRef = storageRef.child(currData.title).getDownloadURL().then(function(url) {
-			document.querySelector('img').src = url;
-		}).catch(function(error) {
-			console.log(error);
-		});
+		//TODO fix image retrieval
+		for(j = 0; j < currData.image; j++)
+		{
+			imageRef = storageRef.child(currID + "_" + numImages).getDownloadURL().then(function(url) {
+				if(j > 0) {
+					addImageStuff();
+				}
+				document.querySelector('#img-upload_'+j).src = url;
+				}).catch(function(error) {
+					console.log(error);
+			});
+
+		}
 	});
+});
+
+//image upload 
+$(document).on('change', '.btn-file :file', function() 
+{
+	var input = $(this),
+		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+	input.trigger('fileselect', [label]);
+});
+$(document).on('fileselect', '.btn-file :file', function(event, label)
+{
+	var input = $(this).parents('.input-group').find(':text'),
+	log = label;
+	if( input.length ) 
+	{
+		input.val(log);
+	} 
+	else 
+	{
+		if( log ) alert(log);
+	}
+	
+});
+function readURL(input)
+{
+	if (input.files && input.files[0]) 
+	{
+		var reader = new FileReader();
+		reader.onload = function (e) 
+		{
+			$('#img-upload_'+input.getAttribute("imgNum")).attr('src', e.target.result);
+		}
+	reader.readAsDataURL(input.files[0]);
+	}
+}
+$(document).on('change', '.mediaImage', function()
+{
+	readURL(this);
 });
 
 $('#saveButton').on('click', function() {
@@ -76,7 +126,10 @@ $('#saveButton').on('click', function() {
 				releaseDate: releaseDateUnix
 			})
 		});
-		addImage(currID, document.getElementById('mediaImage').files[0]);
+		for(i = 0; i < numImages + 1; i++)
+		{
+			addImage(mediaId, document.getElementById('mediaImage_'+i).files[0], i);
+		}
 		// $("#submitProgressBar").animate({
 		// 	    width: "100%"
 		// 	}, 1000);
@@ -136,3 +189,36 @@ firebase.auth().onAuthStateChanged(function(user){
 		console.log("not signed in");
 	}
 })
+
+//Add/remove multiple images ui elements
+$('#addImageButton').on('click', function() {
+	addImageStuff();
+});
+function addImageStuff()
+{
+	console.log("numimages in addimagestuff: " + numImages);
+	numImages++;
+	addImageUploader();
+	addAddImageButtons();
+}
+function addImageUploader()
+{
+ 	$("#theForm").append("<div id='newImageUploader_"+numImages+"' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage_"+numImages+"' class='mediaImage' imgNum='"+numImages+"'></span></span><input type='text' class='form-control' id='mediaImageName' readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload_"+numImages+"' imgNum='"+numImages+"' class='img_upload'/></div></div>");
+
+}
+function addAddImageButtons()
+{
+	$('#addImageRow').remove();
+	$("#theForm").append("<div id='addImageRow' class='form-row'><div class='form-group'><button id='addImageButton'  type='button' class='btn btn-outline-dark addImageButton' onclick='addImageStuff()'>Add Image</button></div></div>");
+	$('#addImageRow').append("<div class='form-group col-md-3'><button id='removeImageButton' type='button' class='btn btn-outline-danger removeImageButton' onclick='removeImageButtons()'>Remove Image</button></div>")
+}
+function removeImageButtons()
+{
+	console.log('why');
+	$('#newImageUploader_'+numImages).remove();
+	numImages--;
+	if(numImages == 0)
+	{
+		$('#removeImageButton').remove();
+	}
+}
