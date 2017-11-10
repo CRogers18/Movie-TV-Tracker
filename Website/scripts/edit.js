@@ -1,6 +1,8 @@
 //variables
 var numImages = 0;
 var j = 0;
+var imgURLs = [];
+var testCount = 0;
 
 //navbar stuff
 $('#createButton').on('click', function() 
@@ -54,17 +56,32 @@ query.on("value", function(snapshot) {
 		$('#mediaReleaseDate').val(releaseDateStandard);
 		$('#mediaImageName').val(currData.image);
 		//TODO fix image retrieval
-		for(j = 0; j < currData.image; j++)
+		imgURLs = new Array()
+		for(j = 0; j < currData.image +1; j++)
 		{
-			imageRef = storageRef.child(currID + "_" + numImages).getDownloadURL().then(function(url) {
-				if(j > 0) {
-					addImageStuff();
-				}
-				document.querySelector('#img-upload_'+j).src = url;
-				}).catch(function(error) {
-					console.log(error);
-			});
-
+			testCount = j;
+			imageRef = storageRef.child(currID + "_" + j);
+			(function(imID) {
+				(imageRef.getDownloadURL().then(function(url) {
+					if(imID == 0) {
+						document.querySelector('#img-upload_'+imID).src = url;
+					}
+					if(imID > 0) {
+						let createHolderPromise = new Promise((resolve, reject) => {
+							addImageStuff();
+							setTimeout(function(){
+								resolve(url);
+							}, 200);
+						});
+						createHolderPromise.then((url) => {
+							document.querySelector('#img-upload_'+imID).src = url;
+						});
+					}
+					imgURLs[imID] = url;
+					}).catch(function(error) {
+						console.log(error);
+				}))
+			})(testCount);
 		}
 	});
 });
@@ -128,7 +145,7 @@ $('#saveButton').on('click', function() {
 		});
 		for(i = 0; i < numImages + 1; i++)
 		{
-			addImage(mediaId, document.getElementById('mediaImage_'+i).files[0], i);
+			addImage(currID, document.getElementById('mediaImage_'+i).files[0], i);
 		}
 		// $("#submitProgressBar").animate({
 		// 	    width: "100%"
@@ -165,11 +182,9 @@ function addImage(mediaId,image){
 }
 
 function addImageAttempt(mediaId, image, imageId){
-	console.log(imageId);
 	var testRef = firebase.storage().ref(mediaId+"_"+imageId);
 	testRef.getDownloadURL().then(
 		function(url){
-			console.log(url)
 			addImageAttempt(mediaId,image,imageId+1);
 		}).catch(
 		function(error){
@@ -196,7 +211,6 @@ $('#addImageButton').on('click', function() {
 });
 function addImageStuff()
 {
-	console.log("numimages in addimagestuff: " + numImages);
 	numImages++;
 	addImageUploader();
 	addAddImageButtons();
@@ -214,7 +228,6 @@ function addAddImageButtons()
 }
 function removeImageButtons()
 {
-	console.log('why');
 	$('#newImageUploader_'+numImages).remove();
 	numImages--;
 	if(numImages == 0)
