@@ -109,6 +109,15 @@ function validateData()
 	return isValid;
 }
 
+function validateDate()
+{
+    // to do - brianna
+}
+
+function validateJpeg()
+{
+    // to do - brianna
+}
 
 function addMedia()
 {
