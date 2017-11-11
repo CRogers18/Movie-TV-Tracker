@@ -34,34 +34,37 @@ public class MainActivity extends AppCompatActivity {
             String user = username.getText().toString();
             String pw = password.getText().toString();
 
-            // If newUserBtn was NOT clicked, regular login attempt
-            if (newUserBtn.getVisibility() != View.INVISIBLE)
-            {
-                uAuth.signInWithEmailAndPassword(user, pw)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful())
-                                    System.out.println("User logged in successfully!");
-                                else
-                                    System.out.println("Login failed!");
-                            }
-                        });
-            }
+            try {
+                // If newUserBtn was NOT clicked, regular login attempt
+                if (newUserBtn.getVisibility() != View.INVISIBLE) {
+                    uAuth.signInWithEmailAndPassword(user, pw)
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful())
+                                        System.out.println("User logged in successfully!");
+                                    else
+                                        System.out.println("Login failed!");
+                                }
+                            });
+                }
 
-            // If they selected new user, create new account first
-            else
+                // If they selected new user, create new account first
+                else {
+                    uAuth.createUserWithEmailAndPassword(user, pw)
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful())
+                                        System.out.println("Account created successfully!");
+                                    else
+                                        System.out.println("Account creation failed!");
+                                }
+                            });
+                }
+            } catch (IllegalArgumentException err)
             {
-                uAuth.createUserWithEmailAndPassword(user, pw)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful())
-                                    System.out.println("Account created successfully!");
-                                else
-                                    System.out.println("Account creation failed!");
-                            }
-                        });
+                System.out.println("[ERROR] Illegal value passed!");
             }
 
         });

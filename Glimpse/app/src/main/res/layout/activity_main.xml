@@ -5,52 +5,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.group3.glimpse.MainActivity">
+    tools:context="com.group3.glimpse.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
 
-    <EditText
-        android:id="@+id/user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Email"
+    <LinearLayout
+        android:layout_width="298dp"
+        android:layout_height="599dp"
+        android:orientation="vertical"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/pass"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/newUser"
-        app:layout_constraintTop_toBottomOf="@+id/user" />
-
-    <Button
-        android:id="@+id/newUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New User?"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/login"
-        app:layout_constraintTop_toBottomOf="@+id/pass" />
-
-    <Button
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUser" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="263dp"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@drawable/logo_static"
+            tools:layout_editor_absoluteY="-46dp" />
+
+        <EditText
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Email"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="154dp" />
+
+        <EditText
+            android:id="@+id/pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="197dp" />
+
+        <Button
+            android:id="@+id/fbBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sign in with Facebook" />
+
+        <Button
+            android:id="@+id/googleBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sign in with Google+" />
+
+        <Button
+            android:id="@+id/newUser"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:text="New User?"
+            tools:layout_editor_absoluteX="82dp"
+            tools:layout_editor_absoluteY="255dp" />
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:text="Login"
+            tools:layout_editor_absoluteX="82dp"
+            tools:layout_editor_absoluteY="488dp" />
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
