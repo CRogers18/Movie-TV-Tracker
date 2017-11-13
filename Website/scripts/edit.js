@@ -201,6 +201,11 @@ $(document).on('change', '.mediaImage', function()
 		var thisStorageRef = firebase.storage().ref(currID + "_" + thisNum);
 		thisStorageRef.put(document.getElementById('mediaImage_'+thisNum).files[0]);
 	}
+	query.once("child_added", function(snapshot) {
+		snapshot.ref.update({
+			image: numImages
+		})
+	});
 });
 
 function addImage(mediaId,image){
@@ -243,7 +248,7 @@ function addImageStuff()
 }
 function addImageUploader()
 {
-	$("#theForm").append("<div id='newImageUploader_"+numImages+"' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage_"+numImages+"' class='mediaImage' imgNum='"+numImages+"'></span></span><input id='mediaImageName_"+numImages+"' type='text' class='form-control required' id='mediaImageName' readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload_"+numImages+"' imgNum='"+numImages+"' class='img_upload'/></div></div>");
+	$("#theForm").append("<div id='newImageUploader_"+numImages+"' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage_"+numImages+"' class='mediaImage' imgNum='"+numImages+"' accept='.jpg'></span></span><input id='mediaImageName_"+numImages+"' type='text' class='form-control required' id='mediaImageName' readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload_"+numImages+"' imgNum='"+numImages+"' class='img_upload'/></div></div>");
 
 }
 function addAddImageButtons()
@@ -258,7 +263,6 @@ function removeImageButtons()
 	if(numImages <= startNumImages)
 	{
 		storageRef.child(currID + "_" + numImages).delete().then(function() {
-			numImages--;
 			if(numImages == 0)
 			{
 				$('#removeImageButton').remove();
@@ -267,10 +271,15 @@ function removeImageButtons()
 	}
 	else
 	{
-		numImages--;
 		if(numImages == 0)
 		{
 			$('#removeImageButton').remove();
 		}
 	}
+	numImages--;
+	query.once("child_added", function(snapshot) {
+		snapshot.ref.update({
+			image: numImages
+		})
+	});
 }
