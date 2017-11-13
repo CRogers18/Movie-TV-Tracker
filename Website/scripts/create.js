@@ -11,6 +11,10 @@ $('#accountButton').on('click', function()
 {
 	window.location.href = 'account.html';
 });
+$('#logoffButton').on('click', function() 
+{
+    window.location.href = 'login.html';
+});
 
 //datepicker initialize
 $('#mediaReleaseDate').datepicker({
