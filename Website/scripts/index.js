@@ -9,7 +9,11 @@ $('#accountButton').on('click', function()
 });
 $('#logoffButton').on('click', function() 
 {
+    firebase.auth().signOut().then(function(){
     window.location.href = 'login.html';
+    },function(error){
+        console.log(error);
+    });
 });
 
 var email;

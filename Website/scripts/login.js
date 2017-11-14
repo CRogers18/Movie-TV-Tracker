@@ -25,6 +25,27 @@ $('#createAccountButton').on('click', function()
 	window.location.href = 'accountCreate.html';
 });
 
+$('#facebookLoginButton').on('click',function(){
+    facebookLogin();
+});
+$('#googleLoginButton').on('click',function(){
+    googleLogin();
+});
+
+function facebookLogin(){
+    var facebookProvider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithRedirect(facebookProvider);
+}
+
+function googleLogin(){
+    var googleProvider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithRedirect(googleProvider);
+}
+
+function logOut(){
+    firebase.auth().signOut();
+}
+
 //Gets info of current user
 firebase.auth().onAuthStateChanged(function(user){
     if(user){
@@ -32,6 +53,7 @@ firebase.auth().onAuthStateChanged(function(user){
         var uid = user.uid;
 
         console.log(email+" "+" "+uid);
+        window.location.href = 'index.html';
     }else{
         console.log("not signed in");
     }
