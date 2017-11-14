@@ -120,9 +120,10 @@ public class MainActivity extends AppCompatActivity {
                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful())
+                                    if (task.isSuccessful()) {
                                         System.out.println("User logged in successfully!");
-                                    else
+                                        launchLoading();
+                                    } else
                                         System.out.println("Login failed!");
                                 }
                             });
@@ -141,8 +142,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                 }
-            } catch (IllegalArgumentException err)
-            {
+            } catch (IllegalArgumentException err) {
                 System.out.println("[ERROR] Illegal value passed!");
             }
 
@@ -151,31 +151,25 @@ public class MainActivity extends AppCompatActivity {
         username.setOnClickListener(v -> username.setText(""));
     }
 
-    private void googleSignIn()
-    {
+    private void googleSignIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(gc);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     // Handles passing info back to the Facebook SDK
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // If request is coming from google login
-        if (requestCode == RC_SIGN_IN)
-        {
+        if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
-            if (result.isSuccess())
-            {
+            if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount acc = result.getSignInAccount();
                 firebaseAuthWithGoogle(acc);
-            }
-
-            else
+            } else
                 System.out.println("Google sign in succeeded!");
         }
 
@@ -185,8 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Connects Google+ logins with Firebase database users
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acc)
-    {
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acc) {
         AuthCredential cred = GoogleAuthProvider.getCredential(acc.getIdToken(), null);
 
         uAuth.signInWithCredential(cred).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -202,8 +195,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Connects Facebook logins with Firebase database users
-    private void handleFBAccessToken(AccessToken token)
-    {
+    private void handleFBAccessToken(AccessToken token) {
         System.out.println("Handling token: " + token);
 
         AuthCredential cred = FacebookAuthProvider.getCredential(token.getToken());
@@ -219,4 +211,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Activity switcher
+    private void launchLoading() {
+        Intent intent = new Intent(this, LoadingActivity.class);
+        startActivity(intent);
+
+    }
 }
