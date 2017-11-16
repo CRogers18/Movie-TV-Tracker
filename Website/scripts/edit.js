@@ -263,10 +263,12 @@ function addAddImageButtons()
 }
 function removeImageButtons()
 {
+	console.log(numImages);
 	$('#newImageUploader_'+numImages).remove();
 	if(numImages <= startNumImages)
 	{
-		storageRef.child(currID + "_" + numImages).delete().then(function() {
+		storageRef.child(currID + "_" + numImages).delete().then(function() {	
+			numImages--;
 			if(numImages == 0)
 			{
 				$('#removeImageButton').remove();
@@ -275,12 +277,13 @@ function removeImageButtons()
 	}
 	else
 	{
+
+		numImages--;
 		if(numImages == 0)
 		{
 			$('#removeImageButton').remove();
 		}
 	}
-	numImages--;
 	query.once("child_added", function(snapshot) {
 		snapshot.ref.update({
 			image: numImages
