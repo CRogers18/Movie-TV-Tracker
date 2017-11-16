@@ -88,10 +88,10 @@ $('#submitButton').on('click', function()
 		addMedia();
 		$("#submitProgressBar").animate({
 			    width: "100%"
-			}, 1000*numImages);
+			}, 1000*(numImages+1));
 		setTimeout(function(){
     		window.location.href = 'index.html';
-		}, 1000*numImages);
+		}, 1000*(numImages+1));
 	}
 });
 
