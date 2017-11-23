@@ -21,9 +21,39 @@
 			<button id="logoffButton" class="btn btn-outline-primary" type="button"><i class="fa fa-power-off" aria-hidden="true"></i></button>
 		</div>
 	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-header">My Account</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<label for="mediaName">Username</label>
+									<input type="text" class="form-control" id="username" placeholder="username" disabled="true">
+								</div>
+								<div class="row">
+									<label for="mediaName">Movies Added</label>
+									<input type="text" class="form-control" id="moviesAdded" placeholder="0" disabled="true">
+								</div>
+								<div class="row">
+									<label for="mediaName">TV Shows Added</label>
+									<input type="text" class="form-control" id="showsAdded" placeholder="0" disabled="true">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
 <script src="scripts/account.js"></script>
