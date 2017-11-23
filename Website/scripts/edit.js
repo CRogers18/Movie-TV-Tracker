@@ -5,6 +5,7 @@ var j = 0;
 var imgURLs = [];
 var testCount = 0;
 var numLoads = 0;
+var format = "";
 
 var currData;
 var url = new URL(window.location.href);
@@ -61,6 +62,14 @@ function loadIn()
 				startNumImages = currData.image;
 				$('#mediaName').val(currData.title);
 				$('#mediaFormat').val(currData.format);
+				if(currData.format === 'Movie')
+				{
+					format = 'movies/';
+				}
+				else
+				{
+					format = 'tv/';
+				}
 				$('#mediaCategory').val(currData.category);
 				$('#mediaDescription').val(currData.description);
 				$('#mediaCast').val(currData.cast);
@@ -70,7 +79,7 @@ function loadIn()
 				for(j = 0; j < currData.image +1; j++)
 				{
 					testCount = j;
-					imageRef = storageRef.child(currID + "_" + j);
+					imageRef = storageRef.child(format + currID + "_" + j + ".jpg");
 					(function(imID) {
 						(imageRef.getDownloadURL().then(function(url) {
 							if(imID == 0) {
@@ -79,7 +88,7 @@ function loadIn()
 									label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 								input.trigger('fileselect', [label]);
 								readURL($('#mediaImage_'+imID));
-								$('#mediaImageName_'+imID).val(currID+"_"+imID+".jpg");
+								$('#mediaImageName_'+imID).val(format + currID+"_"+imID+".jpg");
 							}
 							if(imID > 0) {
 								let createHolderPromise = new Promise((resolve, reject) => {
@@ -94,7 +103,7 @@ function loadIn()
 										label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 									input.trigger('fileselect', [label]);
 									readURL($('#mediaImage_'+imID));
-									$('#mediaImageName_'+imID).val(currID+"_"+imID+".jpg");
+									$('#mediaImageName_'+imID).val(format + currID+"_"+imID+".jpg");
 								});
 							}
 							imgURLs[imID] = url;
@@ -196,13 +205,13 @@ $(document).on('change', '.mediaImage', function()
 	var thisNum = this.getAttribute("imgNum");
 
 	if(thisNum <= currData.image) {
-		storageRef.child(currID + "_" + thisNum).delete().then(function() {
-			var thisStorageRef = firebase.storage().ref(currID + "_" + thisNum);
+		storageRef.child(format + currID + "_" + thisNum + ".jpg").delete().then(function() {
+			var thisStorageRef = firebase.storage().ref(format + currID + "_" + thisNum + ".jpg");
 			thisStorageRef.put(document.getElementById('mediaImage_'+thisNum).files[0]);
 		});
 	}
 	else {
-		var thisStorageRef = firebase.storage().ref(currID + "_" + thisNum);
+		var thisStorageRef = firebase.storage().ref(format + currID + "_" + thisNum + ".jpg");
 		thisStorageRef.put(document.getElementById('mediaImage_'+thisNum).files[0]);
 	}
 	query.once("child_added", function(snapshot) {
@@ -263,11 +272,10 @@ function addAddImageButtons()
 }
 function removeImageButtons()
 {
-	console.log(numImages);
 	$('#newImageUploader_'+numImages).remove();
 	if(numImages <= startNumImages)
 	{
-		storageRef.child(currID + "_" + numImages).delete().then(function() {	
+		storageRef.child(format + currID + "_" + numImages + ".jpg").delete().then(function() {	
 			numImages--;
 			if(numImages == 0)
 			{
