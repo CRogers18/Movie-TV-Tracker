@@ -1,6 +1,7 @@
 //variables
 var maxRecordId = 0;
 var numImages = 0;
+var allowedExtension = ['jpeg', 'jpg'];
 
 //navbar stuff
 $('#createButton').on('click', function() 
@@ -90,18 +91,47 @@ $('#submitButton').on('click', function()
 			    width: "100%"
 			}, 1000*(numImages+1));
 		setTimeout(function(){
-    		window.location.href = 'index.html';
+    	    window.location.href = 'index.html';
 		}, 1000*(numImages+1));
 	}
 });
 
 function validateData()
 {
-	$('#inputErrorAlert').attr("hidden");
-	var isValid = true;
+    var isValid = true;
+    var element;
+
+    for (i = 0; i < numImages + 1; i++)
+    {
+        element = document.getElementById('mediaImage_' + i);
+        console.log(element.accept);
+        if (!validateJpeg(element.accept.toString()))
+        {
+            isValid = false;
+        }
+    }
+
+    if (!isValid)
+    {
+        alert('Allowed Extensions are : *.' + allowedExtension.join(', *.'));
+    }
+
+    $('#inputErrorAlert').attr("hidden");
+    element = $("#mediaReleaseDate");
+    element.removeClass("is-invalid");
+
+    if (element.val() == null || !validateDate(element.val()))
+    {
+        isValid = false;
+        $('#inputErrorAlert').removeAttr("hidden");
+        element.addClass("is-invalid");
+    }
+
+
+
 	$("input, select, textarea").each(function() {
 		var element = $(this);
-		element.removeClass("is-invalid");
+        element.removeClass("is-invalid");
 		if (element.val() == "" || element.val() == null)
 		{
 			isValid = false;
@@ -114,7 +144,7 @@ function validateData()
 }
 
 // validate date format
-function validateDate()
+function validateDate(dateString)
 {
     // First check for the pattern
     if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
@@ -141,10 +171,9 @@ function validateDate()
 }
 
 // validate image = jpeg/jpg
-function validateJpeg()
+function validateJpeg(fileExtension)
 {
-    var allowedExtension = ['jpeg', 'jpg'];
-    var fileExtension = document.getElementById('img1').value.split('.').pop().toLowerCase();
+    
     var isValidFile = false;
 
     for(var index in allowedExtension)
@@ -154,11 +183,6 @@ function validateJpeg()
             isValidFile = true;
             break;
         }
-    }
-
-    if (!isValidFile)
-    {
-        alert('Allowed Extensions are : *.' + allowedExtension.join(', *.'));
     }
 
     return isValidFile;
