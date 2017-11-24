@@ -2,7 +2,7 @@ var numMovies = 0, numShows = 0;
 var action = 1, adventure = 0, comedy = 0, drama = 0, fantasy = 0, horror = 0, mystery = 0, romance = 0, scifi = 0, thriller = 0;
 var actionhold = 0;
 var months = [0,0,0,0,0,0,0,0,0,0,0,0];
-var imageRef;
+var imageRef, uid;
 //navbar stuff
 $('#createButton').on('click', function() 
 {
@@ -36,13 +36,17 @@ var storageRef = firebase.storage().ref();
 firebase.auth().onAuthStateChanged(function(user){
 	if(user){
 		var email = user.email;
-		var uid = user.uid;
+		uid = user.uid;
 
 		console.log(email+" "+" "+uid);
 		$('#username').val(email);
 		imageRef = storageRef.child("profile_images/"+uid);
 		(imageRef.getDownloadURL().then(function(url) {
 			document.querySelector('#prof_img').src = url;
+		}).catch(function() {
+			storageRef.child("profile_images/default-profile.png").getDownloadURL().then(function(url_default) {
+				document.querySelector('#prof_img').src = url_default;
+			})
 		}))
 		var complete = getStats(email);
 		initMetrics(complete);
@@ -172,6 +176,61 @@ var monthLayout =
 	title: 'Release Month Distribution'
 };
 Plotly.newPlot('monthGraph', monthData, monthLayout);
+
+//change profile image
+$('#prof_img_cap').on('click', function() {
+	$('#prof_img_file').click();
+})
+
+$('#prof_img_file').hide();
+
+//image upload 
+$(document).on('change', '.btn-file :file', function() 
+{
+	var input = $(this),
+		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+	input.trigger('fileselect', [label]);
+});
+$(document).on('fileselect', '.btn-file :file', function(event, label)
+{
+	var input = $(this).parents('.input-group').find(':text'),
+	log = label;
+	if( input.length ) 
+	{
+		input.val(log);
+	} 
+	else 
+	{
+		if( log ) alert(log);
+	}
+	
+});
+function readURL(input)
+{
+	if (input.files && input.files[0]) 
+	{
+		var reader = new FileReader();
+		reader.onload = function (e) 
+		{
+			$('#prof_img').attr('src', e.target.result);
+		}
+	reader.readAsDataURL(input.files[0]);
+	}
+}
+$(document).on('change', '.prof_img_file', function()
+{
+	readURL(this);
+	var testRef = firebase.storage().ref("profile_images/"+uid);
+	testRef.getDownloadURL().then(
+		function(url){
+			testRef.delete().then(function(){
+				testRef.put(document.getElementById('prof_img_file').files[0]);
+			});
+		}).catch(
+		function(error){
+			testRef.put(document.getElementById('prof_img_file').files[0]);
+	});
+});
 
 
 
