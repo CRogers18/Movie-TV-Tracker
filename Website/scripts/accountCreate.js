@@ -36,7 +36,7 @@ function addUserImageWithRedirect(){
 	var testRef = firebase.storage().ref("profile_images/" + firebase.auth().currentUser.uid);
 	var profileImage = document.getElementById('profileImage').files[0];
 	document.getElementById('profileImage').value="";
-	.then(function(){
+	testRef.put(profileImage).then(function(){
 		window.location.href = 'login.html';
 	});
 }
