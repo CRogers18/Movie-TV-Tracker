@@ -2,6 +2,7 @@ var numMovies = 0, numShows = 0;
 var action = 1, adventure = 0, comedy = 0, drama = 0, fantasy = 0, horror = 0, mystery = 0, romance = 0, scifi = 0, thriller = 0;
 var actionhold = 0;
 var months = [0,0,0,0,0,0,0,0,0,0,0,0];
+var imageRef;
 //navbar stuff
 $('#createButton').on('click', function() 
 {
@@ -29,6 +30,7 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 var mediaDbDataList = database.ref('media/');
+var storageRef = firebase.storage().ref();
 
 //user stuff
 firebase.auth().onAuthStateChanged(function(user){
@@ -38,6 +40,10 @@ firebase.auth().onAuthStateChanged(function(user){
 
 		console.log(email+" "+" "+uid);
 		$('#username').val(email);
+		imageRef = storageRef.child("profile_images/"+uid);
+		(imageRef.getDownloadURL().then(function(url) {
+			document.querySelector('#prof_img').src = url;
+		}))
 		var complete = getStats(email);
 		initMetrics(complete);
 	}else{
@@ -122,6 +128,11 @@ function getStats(email)
 	    			graphData[0].values[8] = thriller;
 	    			Plotly.plot('genreGraph', graphData, layout);
 	    			break;
+	    	}
+	    	if(actionhold == 0)
+	    	{
+	    		graphData[0].values[0] = 0;
+	    		Plotly.plot('genreGraph', graphData, layout);
 	    	}
 	    }
 	});
