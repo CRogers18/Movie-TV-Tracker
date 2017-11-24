@@ -1,5 +1,7 @@
-var numMovies = 0;
-var numShows = 0;
+var numMovies = 0, numShows = 0;
+var action = 1, adventure = 0, comedy = 0, drama = 0, fantasy = 0, horror = 0, mystery = 0, romance = 0, scifi = 0, thriller = 0;
+var actionhold = 0;
+var months = [0,0,0,0,0,0,0,0,0,0,0,0];
 //navbar stuff
 $('#createButton').on('click', function() 
 {
@@ -36,7 +38,8 @@ firebase.auth().onAuthStateChanged(function(user){
 
 		console.log(email+" "+" "+uid);
 		$('#username').val(email);
-		getStats(email);
+		var complete = getStats(email);
+		initMetrics(complete);
 	}else{
 		console.log("not signed in");
 	}
@@ -48,17 +51,116 @@ function getStats(email)
 	{
 	    var releaseDateTemp = new Date(0);
 	    releaseDateTemp.setUTCSeconds(data.val().releaseDate);
-	    var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' +  releaseDateTemp.getFullYear();
-	    if (data.val().uploader === email && data.val().format === 'Movie')
+	    var releaseMonth = releaseDateTemp.getMonth()+1;
+	    if (data.val().uploader === email)
 	    {
-		   numMovies++;
-		   $('#moviesAdded').val(numMovies);
-	    }
-	    if (data.val().uploader === email && data.val().format === 'TV Show')
-	    {
-		   numShows++;
-		   $('#showsAdded').val(numShows);
+	    	months[releaseMonth-1]++;
+	    	monthData[0].y = months;
+	    	Plotly.newPlot('monthGraph', monthData, monthLayout);
+	    	switch (data.val().format) {
+	    		case "Movie":
+	    			numMovies++;
+	    			initMetrics();
+	    			break;
+	    		case "TV Show":
+	    			numShows++;
+	    			initMetrics();
+	    			break;
+	    	}
+	    	switch (data.val().category) {
+	    		case "Action":
+	    			if (actionhold > 0)
+	    				action++;
+	    			else actionhold++;
+	    			graphData[0].values[0] = action;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Adventure":
+	    			adventure++;
+	    			if(adventure > 0)
+	    				graphData[0].labels[1] = 'Adventure';
+	    			graphData[0].values[1] = adventure;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Comedy":
+	    			comedy++;
+	    			graphData[0].values[2] = comedy;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Drama":
+	    			drama++;
+	    			graphData[0].values[3] = drama;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Fantasy":
+	    			fantasy++;
+	    			graphData[0].values[4] = fantasy;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Horror":
+	    			horror++;
+	    			graphData[0].values[5] = horror;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Mystery":
+	    			mystery++;
+	    			graphData[0].values[6] = mystery;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Romance":
+	    			romance++;
+	    			graphData[0].values[7] = romance;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Sci-Fi":
+	    			scifi++;
+	    			graphData[0].values[8] = scifi;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    		case "Thriller":
+	    			thriller++;
+	    			graphData[0].values[8] = thriller;
+	    			Plotly.plot('genreGraph', graphData, layout);
+	    			break;
+	    	}
 	    }
 	});
 }
+
+function initMetrics(gotStats)
+{
+	$('#moviesAdded').val(numMovies);
+	$('#showsAdded').val(numShows);
+}
+
+//genre graph init
+var graphData = [{
+	values: [action, adventure, comedy, drama, fantasy, horror, mystery, romance, scifi, thriller],
+	labels: ['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller'],
+	type: 'pie',
+	name: '',
+	insidetextfont: {
+		color: 'rgb(255,255,255)'
+	}
+}];
+var layout = {
+	title: "Genre Distribution"
+};
+Plotly.newPlot('genreGraph', graphData, layout);
+
+//month graph init
+var monthData = [
+  {
+    x: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    y: months,
+    type: 'bar'
+  }
+];
+var monthLayout =
+{
+	title: 'Release Month Distribution'
+};
+Plotly.newPlot('monthGraph', monthData, monthLayout);
+
+
 
