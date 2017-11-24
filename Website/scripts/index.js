@@ -38,10 +38,10 @@ mediaDbDataList.on('child_added', function(data)
     var releaseDateTemp = new Date(0);
     releaseDateTemp.setUTCSeconds(data.val().releaseDate);
     var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' +  releaseDateTemp.getFullYear();
-    // if(data.val().uploader === email)
-    // {
+    if(data.val().uploader === email)
+    {
 	   table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, releaseDateStandard]).draw(false);
-    // }
+    }
 });
 
 //create datatable
