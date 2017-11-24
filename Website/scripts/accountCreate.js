@@ -37,7 +37,11 @@ function addUserImageWithRedirect(){
 	var profileImage = document.getElementById('profileImage').files[0];
 	document.getElementById('profileImage').value="";
 	testRef.put(profileImage).then(function(){
-		window.location.href = 'login.html';
+		firebase.auth().signOut().then(function(){
+   	 	window.location.href = 'login.html';
+   	 	},function(error){
+    	    console.log(error);
+    	});
 	});
 }
 
