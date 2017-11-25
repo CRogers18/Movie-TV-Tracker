@@ -226,7 +226,16 @@ function addImage(mediaId,image,imgNum){
 
 function addImageAttempt(mediaId, image, imageId){
 	console.log(imageId);
-	var testRef = firebase.storage().ref(mediaId+"_"+imageId);
+	if ($('#mediaFormat').val() === 'Movie')
+	{
+		var testRef = firebase.storage().ref("movies/" + mediaId + "_" + imageId + ".jpg");
+	
+	}
+	else
+	{
+		var testRef = firebase.storage().ref("tv/" + mediaId + "_" + imageId + ".jpg");
+	
+	}
 	testRef.getDownloadURL().then(
 		function(url){
 			console.log(url)

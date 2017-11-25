@@ -18,6 +18,7 @@ $('#loginButton').on('click', function()
 {
 	uname = $('#username').val();
 	pword = $('#password').val();
+    firebase.auth().signInWithEmailAndPassword(uname,pword);
 });
 
 $('#createAccountButton').on('click', function()

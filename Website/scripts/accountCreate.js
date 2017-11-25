@@ -13,16 +13,12 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 var userDbDataList = database.ref('user/');
-
 function addUser()
 {
 	var username = document.getElementById('username').value;
 	document.getElementById('username').value="";
 	var password = document.getElementById('password').value;
 	document.getElementById('password').value="";
-	var profileImage = document.getElementById('profileImage').value;
-	document.getElementById('profileImage').value="";
-
 	createUser(username,password);
 	// addUserToDB(username, password, profileImage);
 }
@@ -34,6 +30,24 @@ function createUser(email, password){
 			console.log(error.code+": "+error.message);
 		});
 	});
+}
+
+function addUserImageWithRedirect(){
+	var testRef = firebase.storage().ref("profile_images/" + firebase.auth().currentUser.uid);
+	var profileImage = document.getElementById('profileImage').files[0];
+	document.getElementById('profileImage').value="";
+	testRef.put(profileImage).then(function(){
+		firebase.auth().signOut().then(function(){
+   	 	window.location.href = 'login.html';
+   	 	},function(error){
+    	    console.log(error);
+    	});
+	});
+}
+
+function addUserImage(image){
+	var testRef = firebase.storage().ref("profile_images/" + firebase.auth().currentUser.uid);
+	testRef.put(image);
 }
 
 //Logs user in
@@ -52,8 +66,8 @@ firebase.auth().onAuthStateChanged(function(user){
 		var uid = user.uid;
 
 		console.log(email+" "+" "+uid);
+		addUserImageWithRedirect();
 
-		window.location.href = 'login.html';
 	}else{
 		console.log("not signed in");
 	}
