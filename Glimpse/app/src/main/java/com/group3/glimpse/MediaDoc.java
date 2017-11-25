@@ -67,6 +67,7 @@ public class MediaDoc implements Serializable {
         return uploader;
     }
     public ImageView getMediaIcon() { return images.get(0); }
+    public ArrayList<ImageView> getImages() { return images; }
 
     // Convert the UST to a string date only for movies or time and date for TV shows
     private String convertToDate(String releaseDate, boolean isMovie)

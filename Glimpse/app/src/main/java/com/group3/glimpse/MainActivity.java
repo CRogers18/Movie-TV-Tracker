@@ -29,12 +29,19 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth uAuth = FirebaseAuth.getInstance();
+    private static FirebaseAuth uAuth = FirebaseAuth.getInstance();
     private CallbackManager cbm;
     private GoogleApiClient gc;
     private static final int RC_SIGN_IN = 123;
+    private static ArrayList<Integer> trackedIDs = new ArrayList<>(), nIDs = new ArrayList<>();
+    private static ArrayList<Long> notifications = new ArrayList<>();
+
+    // Super stupid, but we're on a deadline
+    public static User user = new User(uAuth, trackedIDs, notifications, nIDs);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

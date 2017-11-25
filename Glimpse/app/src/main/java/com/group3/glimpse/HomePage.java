@@ -2,11 +2,8 @@ package com.group3.glimpse;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,24 +15,25 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Bitmap;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -49,6 +47,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     HorizontalScrollView movieView, tvView;
     LinearLayout movies, tv;
     ArrayList <MediaDoc> mediaList;
+
+    TextView title, description, actors;
+    ImageView mediaImage, closeButton;
+    ImageButton trackButton;
 
     @Override
     public void onBackPressed() {
@@ -188,7 +190,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 {
                     // GetID on an imageView will now return which mediaID to get info for from the list
                     mediaPic.setId(mediaID);
-                    mediaPic.setOnClickListener(v -> System.out.println("TODO: Load stuff for mediaID: " + mediaPic.getId()));
+                    mediaPic.setOnClickListener(v -> loadMediaInfo(mediaID));
                 }
 
                 mediaImages.add(mediaPic);
@@ -200,6 +202,45 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         }
 
         return mediaImages;
+    }
+
+    private void loadMediaInfo(int mediaID)
+    {
+        System.out.println("Load stuff for mediaID: " + mediaID);
+
+        for (MediaDoc m : mediaList)
+
+            if (m.getId() == mediaID)
+            {
+                // Gets a byte array for the image to send to the loadMedia activity
+                ImageView icon = m.getMediaIcon();
+                icon.buildDrawingCache();
+                Bitmap img = icon.getDrawingCache();
+
+                ByteArrayOutputStream imgStream = new ByteArrayOutputStream();
+                img.compress(Bitmap.CompressFormat.JPEG, 100, imgStream);
+                byte[] imgBytes = imgStream.toByteArray();
+
+                String title = m.getTitle(), desc = m.getDescription(), cast = m.getCast();
+
+                /*
+                for (ImageView v : m.getImages())
+                {
+                    // get each image ready to package
+                }
+                */
+
+                Intent intent = new Intent(this, LoadMedia.class);
+
+                intent.putExtra("title", title);
+                intent.putExtra("mediaID", mediaID);
+                intent.putExtra("imgBytes", imgBytes);
+                intent.putExtra("description", desc);
+                intent.putExtra("cast", cast);
+
+                startActivity(intent);
+                break;
+            }
     }
 
     private boolean isNetworkActive()
@@ -234,9 +275,40 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                 Toast.makeText(getApplicationContext(), "tracked", Toast.LENGTH_LONG).show();
 
+                movies.removeAllViews();
+                tv.removeAllViews();
+
+                for (int i : MainActivity.user.getTrackedIDs())
+                {
+                    for (MediaDoc m : mediaList) {
+                        if (m.getId() == i) {
+                            if (m.isMovie())
+                                movies.addView(m.getMediaIcon());
+                            else
+                                tv.addView(m.getMediaIcon());
+                        }
+                    }
+                }
+
                 break;
 
             case R.id.notifications_id:
+
+                // Same code as tracked, just a little extra for things you want to be notified about
+                movies.removeAllViews();
+                tv.removeAllViews();
+
+                for (int i : MainActivity.user.getNotificationIDs())
+                {
+                    for (MediaDoc m : mediaList) {
+                        if (m.getId() == i) {
+                            if (m.isMovie())
+                                movies.addView(m.getMediaIcon());
+                            else
+                                tv.addView(m.getMediaIcon());
+                        }
+                    }
+                }
 
                 Toast.makeText(getApplicationContext(), "notifications", Toast.LENGTH_LONG).show();
 
@@ -245,6 +317,41 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.suggestions_id:
 
                 Toast.makeText(getApplicationContext(), "suggestions", Toast.LENGTH_LONG).show();
+
+                movies.removeAllViews();
+                tv.removeAllViews();
+
+                if (MainActivity.user.getTrackedIDs().size() > 0)
+                {
+                    int rId = MainActivity.user.getTrackedIDs().get(0);
+                    String cat = "meow";    // bad joke, I know
+
+                    // Find the media tracked by the user and get its category
+                    for (MediaDoc m : mediaList) {
+                        if (m.getId() == rId) {
+                            cat = m.getCategory();
+                            break;
+                        }
+                    }
+
+                    for (MediaDoc m : mediaList) {
+
+                        // If the categories match and the media isn't already tracked by the user, add it to the view
+                        if (m.getCategory().contains(cat) && !MainActivity.user.getTrackedIDs().contains(m.getId())) {
+                            if (m.isMovie())
+                                movies.addView(m.getMediaIcon());
+                            else
+                                tv.addView(m.getMediaIcon());
+                        }
+                    }
+
+                    System.out.println("Displaying suggestions based on users tracked content");
+                }
+
+                else
+                {
+                    System.out.println("YO ADD SOME STUFF TO MAKE THIS SHIT EASIER MAN");
+                }
 
                 break;
 
@@ -261,4 +368,5 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         return true;
 
     }
+
 }
