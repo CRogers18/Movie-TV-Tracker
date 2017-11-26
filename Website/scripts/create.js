@@ -100,36 +100,13 @@ function validateData()
 {
     var isValid = true;
     var element;
+    var re = /(?:\.([^.]+))?$/;
 
-    for (i = 0; i < numImages + 1; i++)
-    {
-        element = document.getElementById('mediaImage_' + i);
-        console.log(element.accept);
-        if (!validateJpeg(element.accept.toString()))
-        {
-            isValid = false;
-        }
-    }
+    $('#fileInputErrorAlert').attr("hidden", "true");
+    $('#inputErrorAlert').attr("hidden", "true");
+    $('#datetErrorAlert').attr("hidden", "true");
 
-    if (!isValid)
-    {
-        alert('Allowed Extensions are : *.' + allowedExtension.join(', *.'));
-    }
-
-    $('#inputErrorAlert').attr("hidden");
-    element = $("#mediaReleaseDate");
-    element.removeClass("is-invalid");
-
-    if (element.val() == null || !validateDate(element.val()))
-    {
-        isValid = false;
-        $('#inputErrorAlert').removeAttr("hidden");
-        element.addClass("is-invalid");
-    }
-
-
-
-	$("input, select, textarea").each(function() {
+    $("input, select, textarea").each(function() {
 		var element = $(this);
         element.removeClass("is-invalid");
 		if (element.val() == "" || element.val() == null)
@@ -139,6 +116,33 @@ function validateData()
 			element.addClass("is-invalid");
 		}
 	});
+
+	element = $("#mediaReleaseDate");
+    element.removeClass("is-invalid");
+
+	if (element.val() == null || !validateDate(element.val()))
+    {
+        isValid = false;
+        $('#datetErrorAlert').removeAttr("hidden");
+        element.addClass("is-invalid");
+    }
+
+
+    for (i = 0; i < numImages + 1; i++)
+    {
+        elementVal = $('#mediaImageName_'+i).val();
+        elementVal = re.exec(elementVal)[1];
+        $('#mediaImageName_'+i).removeClass("is-invalid");
+        $('#mediaImage_'+i).removeClass("is-invalid");
+
+        if (!validateJpeg(elementVal))
+        {
+            isValid = false;
+            $('#mediaImageName_'+i).addClass("is-invalid");
+            $('#mediaImage_'+i).addClass("is-invalid");
+            $('#fileInputErrorAlert').removeAttr("hidden");
+        }
+    }
 
 	return isValid;
 }
@@ -225,7 +229,6 @@ function addImage(mediaId,image,imgNum){
 }
 
 function addImageAttempt(mediaId, image, imageId){
-	console.log(imageId);
 	if ($('#mediaFormat').val() === 'Movie')
 	{
 		var testRef = firebase.storage().ref("movies/" + mediaId + "_" + imageId + ".jpg");
@@ -294,7 +297,7 @@ function addImageStuff()
 }
 function addImageUploader()
 {
- 	$("#theForm").append("<div id='newImageUploader' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage_"+numImages+"' class='mediaImage' imgNum='"+numImages+"' accept='.jpg'></span></span><input type='text' class='form-control' id='mediaImageName' readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload_"+numImages+"' imgNum='"+numImages+"' class='img_upload'/></div></div>");
+ 	$("#theForm").append("<div id='newImageUploader' class='form-row'><div class='form-group col-md-5'><label for='mediaImage'>Upload Image</label><div class='input-group'><span class='input-group-btn'><span class='btn btn-light btn-file' type='button'>Browse <input type='file' id='mediaImage_"+numImages+"' class='mediaImage' imgNum='"+numImages+"' accept='.jpg'></span></span><input type='text' class='form-control' id='mediaImageName_"+numImages+"' readonly></div></div><div class='col-md-1'></div><div class='col-md-3'><img id='img-upload_"+numImages+"' imgNum='"+numImages+"' class='img_upload'/></div></div>");
 
 }
 function addAddImageButtons()

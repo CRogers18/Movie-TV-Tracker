@@ -32,6 +32,12 @@
 						<div id="inputErrorAlert" class="alert alert-danger" role="alert" hidden>
 							Error! Please fix the highlighted fields and try again. 
 						</div>
+						<div id="fileInputErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! The image(s) you have selected are not of the accepted .jpg file type. Please fix the highlighted fields and try again. 
+						</div>
+						<div id="datetErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! The release date you've submitted is not of the format mm/dd/yyy. Please fix and try again.  
+						</div>
 						<form id="theForm">
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -90,7 +96,7 @@
 												Browse <input type="file" id="mediaImage_0" class="mediaImage" imgNum="0" accept=".jpg">
 											</span>
 										</span>
-										<input type="text" class="form-control" id="mediaImageName" readonly>
+										<input type="text" class="form-control" id="mediaImageName_0" readonly>
 									</div>
 								</div>
 								<div class="col-md-1"></div>

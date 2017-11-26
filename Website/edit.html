@@ -34,6 +34,12 @@
 						<div id="inputErrorAlert" class="alert alert-danger" role="alert" hidden>
 							Error! Please fix the highlighted fields and try again. 
 						</div>
+						<div id="fileInputErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! The image(s) you have selected are not of the accepted .jpg file type. Please fix the highlighted fields and try again. 
+						</div>
+						<div id="datetErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! The release date you've submitted is not of the format mm/dd/yyy. Please fix and try again.  
+						</div>
 						<form id="theForm">
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -109,7 +115,10 @@
 					</div>
 					<div class="card-footer">
 						<div class="row">
-							<div class="col-md-10 progress-container">
+							<div class="col-md-2 float-right">
+								<button id="deleteButton" type = "button" class="btn btn-danger float-left">Delete</button>
+							</div>
+							<div class="col-md-8 progress-container">
 							    <div class="progress active">
 							        <div id="submitProgressBar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width:0%"></div>
 							    </div>

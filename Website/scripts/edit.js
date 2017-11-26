@@ -6,6 +6,8 @@ var imgURLs = [];
 var testCount = 0;
 var numLoads = 0;
 var format = "";
+var allowedExtension = ['jpeg', 'jpg'];
+var thisRef;
 
 var currData;
 var url = new URL(window.location.href);
@@ -52,6 +54,7 @@ function loadIn()
 {
 	query.on("value", function(snapshot) {
 		snapshot.forEach(function(data) {
+			thisRef = data.val();
 			numLoads++;
 			if(numLoads == 1)
 			{
@@ -117,6 +120,21 @@ function loadIn()
 	});
 }
 
+$('#deleteButton').on('click', function() {
+	mediaRef.child(currData.title).remove().then(function() {
+	for (i = 0; i < numImages + 1; i++)
+    {
+    	storageRef.child(format + currID + "_" + i + ".jpg").delete();
+    }
+    $("#submitProgressBar").animate({
+	    width: "100%"
+	}, 1000);
+	setTimeout(function(){
+		window.location.href = 'index.html';
+	}, 1000);
+	});
+})
+
 $('#saveButton').on('click', function() {
 	if(validateData())
 	{
@@ -151,19 +169,99 @@ $('#saveButton').on('click', function() {
 
 function validateData()
 {
-	$('#inputErrorAlert').attr("hidden");
-	var isValid = true;
-	$(".required").each(function() {
+    var isValid = true;
+    var element;
+    var re = /(?:\.([^.]+))?$/;
+
+    $('#fileInputErrorAlert').attr("hidden", "true");
+    $('#inputErrorAlert').attr("hidden", "true");
+    $('#datetErrorAlert').attr("hidden", "true");
+
+    $(".required").each(function() {
 		var element = $(this);
-		element.removeClass("is-invalid");
+        element.removeClass("is-invalid");
 		if (element.val() == "" || element.val() == null)
 		{
+			console.log(element);
 			isValid = false;
 			$('#inputErrorAlert').removeAttr("hidden");
 			element.addClass("is-invalid");
 		}
 	});
+
+	element = $("#mediaReleaseDate");
+    element.removeClass("is-invalid");
+
+	if (element.val() == null || !validateDate(element.val()))
+    {
+        isValid = false;
+        $('#datetErrorAlert').removeAttr("hidden");
+        element.addClass("is-invalid");
+    }
+
+
+    for (i = 0; i < numImages + 1; i++)
+    {
+        elementVal = $('#mediaImageName_'+i).val();
+        elementVal = re.exec(elementVal)[1];
+        $('#mediaImageName_'+i).removeClass("is-invalid");
+        $('#mediaImage_'+i).removeClass("is-invalid");
+
+        if (!validateJpeg(elementVal))
+        {
+            isValid = false;
+            $('#mediaImageName_'+i).addClass("is-invalid");
+            $('#mediaImage_'+i).addClass("is-invalid");
+            $('#fileInputErrorAlert').removeAttr("hidden");
+        }
+    }
+
 	return isValid;
+}
+
+// validate date format
+function validateDate(dateString)
+{
+    // First check for the pattern
+    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+        return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("/");
+    var day = parseInt(parts[1], 10);
+    var month = parseInt(parts[0], 10);
+    var year = parseInt(parts[2], 10);
+
+    // Check the ranges of month and year
+    if(year < 1000 || year > 3000 || month == 0 || month > 12)
+        return false;
+
+    var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+}
+
+// validate image = jpeg/jpg
+function validateJpeg(fileExtension)
+{
+    
+    var isValidFile = false;
+
+    for(var index in allowedExtension)
+    {
+        if(fileExtension === allowedExtension[index])
+        {
+            isValidFile = true;
+            break;
+        }
+    }
+
+    return isValidFile;
 }
 
 //image upload 
