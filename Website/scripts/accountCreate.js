@@ -20,6 +20,7 @@ function addUser()
 	var password = document.getElementById('password').value;
 	document.getElementById('password').value="";
 	createUser(username,password);
+	document.getElementById('passwordConfirm').value="";
 	// addUserToDB(username, password, profileImage);
 }
 
@@ -28,6 +29,10 @@ function createUser(email, password){
 	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(function (user){
 		firebase.auth().createUserWithEmailAndPassword(email,password).catch(function(error){
 			console.log(error.code+": "+error.message);
+			if(error.code == "auth/email-already-in-use")
+			{
+				$('#accountExistAlert').removeAttr("hidden");
+			}
 		});
 	});
 }
@@ -145,8 +150,8 @@ $('#submitNewAccountButton').on('click', function()
 
 function validate()
 {
-	$('#inputErrorAlert').attr("hidden");
-
+	$('#inputErrorAlert').attr("hidden", "true");
+	$('#accountExistAlert').attr("hidden", "true");
 	var isValid = true;
 	$("input").each(function() {
 		var element = $(this);
