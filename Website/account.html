@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="styles/account.css">
+
+</head>
+<body>
+	<nav class="navbar" style="background-color: #edf2f2;">
+		<a class="navbar-brand text-muted" href="index.html">Glimpse Production</a>
+		<div class="btn-group">
+			<button id="createButton" class="btn btn-outline-success" type="button">Create</button>
+			<button id="accountButton" class="btn btn-primary" type="button">Account</button>
+			<button id="logoffButton" class="btn btn-outline-primary" type="button"><i class="fa fa-power-off" aria-hidden="true"></i></button>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-header">My Account</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+								<ul class="photo-grid">
+									<li>
+										<figure class="profileimage">
+											<img id="prof_img" class="profileimage" alt="profile image loading..."/><input type="file" id="prof_img_file" class="prof_img_file" accept=".jpg" style="visibility:hidden">
+											<figcaption id="prof_img_cap"><p>Change Profile Image</p></figcaption>
+										</figure>
+									</li>
+								</ul>
+								<!-- <img id="prof_img" alt=""/> -->
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<label for="mediaName">Username</label>
+									<input type="text" class="form-control" id="username" placeholder="username" disabled="true">
+								</div>
+								<div class="row">
+									<label for="mediaName">Movies Added</label>
+									<input type="text" class="form-control" id="moviesAdded" placeholder="0" disabled="true">
+								</div>
+								<div class="row">
+									<label for="mediaName">TV Shows Added</label>
+									<input type="text" class="form-control" id="showsAdded" placeholder="0" disabled="true">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div id="genreGraph"></div>
+							</div>
+							<div class="col-md-6">
+								<div id="monthGraph"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="scripts/account.js"></script>
