@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -74,15 +75,21 @@ public class MainActivity extends AppCompatActivity {
                 // database or the credentials are used to log in to an existing account
                 handleFBAccessToken(loginResult.getAccessToken());
             }
-
+            // If the facebook login is cancelled, let the user know
             @Override
             public void onCancel() {
-                System.out.println("Facebook login cancelled!");
-            }
 
+                System.out.println("Facebook login cancelled!");
+                Toast.makeText(getApplication(), "Facebook login cancelled.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            // If there is a problem logging with facebook, let the user know
             @Override
             public void onError(FacebookException error) {
                 System.out.println("Facebook login error! " + error);
+                Toast.makeText(getApplication(), "Facebook login error.\nPlease try again" +
+                                " or use another login method",
+                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -96,8 +103,11 @@ public class MainActivity extends AppCompatActivity {
         gc = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
+                    // Inform users of failed connections
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                         System.out.println("Error connection failed to GoogleAPI!");
+                        Toast.makeText(getApplicationContext(), "Connection failed.\n"
+                                + connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -128,29 +138,49 @@ public class MainActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         System.out.println("User logged in successfully!");
                                         launchHomePage();
-                                    } else
+                                    } else {
                                         System.out.println("Login failed!");
+                                        Toast.makeText(getApplicationContext(), "Login failed.\n"
+                                                        + task.getException().getLocalizedMessage(),
+                                                Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             });
                 }
 
                 // If they selected new user, create new account first
                 else {
-                    uAuth.createUserWithEmailAndPassword(user, pw)
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        System.out.println("Account created successfully!");
-                                        launchHomePage();
+                    // Prevent account creation with weak passwords
+                    if(pw.toLowerCase().compareTo("password") != 0) {
+                        uAuth.createUserWithEmailAndPassword(user, pw)
+                                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            System.out.println("Account created successfully!");
+                                            launchHomePage();
+                                        } else {
+                                            System.out.println("Account creation failed!");
+                                            Toast.makeText(getBaseContext(), "Account creation " +
+                                                            "failed.\n"
+                                                            + task.getException().getLocalizedMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+
                                     }
-                                    else
-                                        System.out.println("Account creation failed!");
-                                }
-                            });
+                                });
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Please use a stronger password." +
+                                "\nTry including letters, numbers, and symbols.",
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
             } catch (IllegalArgumentException err) {
                 System.out.println("[ERROR] Illegal value passed!");
+                Toast.makeText(getApplicationContext(), "Username or password not recognized.\n" +
+                        "Username should be a valid email address,\nand password should be " +
+                        "at least 6 characters.", Toast.LENGTH_LONG).show();
             }
 
         });
@@ -196,8 +226,11 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("User logged in to Glimpse w/ Google successfully!");
                     launchHomePage();
                 }
-                else
+                else {
                     System.out.println("User login to Glimpse w/ Google failed!");
+                    Toast.makeText(getApplicationContext(), "Google login failed.\n"
+                            + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -214,8 +247,11 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("User signed in via Facebook successfully!");
                     launchHomePage();
                 }
-                else
+                else {
                     System.out.println("Facebook login failed!");
+                    Toast.makeText(getApplicationContext(), "Facebook login failed.\n"
+                    + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
