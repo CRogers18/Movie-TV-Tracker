@@ -61,4 +61,14 @@
         </HorizontalScrollView>
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="@color/com_facebook_button_background_color_pressed"
+        android:tint="@color/cardview_light_background"
+        app:srcCompat="@android:drawable/ic_search_category_default" />
+
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.group3.glimpse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -46,11 +47,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     NavigationView navigationView;
     HorizontalScrollView movieView, tvView;
     LinearLayout movies, tv;
-    ArrayList <MediaDoc> mediaList;
+    static ArrayList <MediaDoc> mediaList;
 
     TextView title, description, actors;
     ImageView mediaImage, closeButton;
-    ImageButton trackButton;
+    ImageButton trackButton, searchButton;
 
     @Override
     public void onBackPressed() {
@@ -80,6 +81,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         movies = (LinearLayout) findViewById(R.id.movieList);
         tv = (LinearLayout) findViewById(R.id.tvList);
         movieView = (HorizontalScrollView) findViewById(R.id.movies);
+        // Search button
+        searchButton = (ImageButton) findViewById(R.id.searchButton);
 
         movies.setGravity(Gravity.CENTER);
 
@@ -88,6 +91,14 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+
+        // Switch to search if search button pressed
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchSearch();
+            }
+        });
 
         // Scheduled task to check for interruptions to network connectivity every second
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -367,6 +378,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         return true;
 
+    }
+    // Activity switcher
+    private void launchSearch()
+    {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
     }
 
 }
