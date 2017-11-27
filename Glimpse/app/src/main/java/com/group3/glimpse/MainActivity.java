@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 // database or the credentials are used to log in to an existing account
                 handleFBAccessToken(loginResult.getAccessToken());
             }
+
             // If the facebook login is cancelled, let the user know
             @Override
             public void onCancel() {
@@ -128,13 +129,20 @@ public class MainActivity extends AppCompatActivity {
             String user = username.getText().toString();
             String pw = password.getText().toString();
 
+            System.out.println("Attempting login");
+
             try {
                 // If newUserBtn was NOT clicked, regular login attempt
                 if (newUserBtn.getVisibility() != View.INVISIBLE) {
+
                     uAuth.signInWithEmailAndPassword(user, pw)
                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    System.out.println("Task is " + task.getResult());
+
                                     if (task.isSuccessful()) {
                                         System.out.println("User logged in successfully!");
                                         launchHomePage();
@@ -145,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }
+
                             });
                 }
 
@@ -166,23 +175,23 @@ public class MainActivity extends AppCompatActivity {
                                                             + task.getException().getLocalizedMessage(),
                                                     Toast.LENGTH_LONG).show();
                                         }
-
                                     }
                                 });
                     }
+
                     else {
                         Toast.makeText(getApplicationContext(), "Please use a stronger password." +
                                 "\nTry including letters, numbers, and symbols.",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
+
             } catch (IllegalArgumentException err) {
                 System.out.println("[ERROR] Illegal value passed!");
                 Toast.makeText(getApplicationContext(), "Username or password not recognized.\n" +
                         "Username should be a valid email address,\nand password should be " +
                         "at least 6 characters.", Toast.LENGTH_LONG).show();
             }
-
         });
 
         username.setOnClickListener(v -> username.setText(""));

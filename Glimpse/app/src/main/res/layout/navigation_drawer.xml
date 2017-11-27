@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <include layout="@layout/toolbar_layout" />
 
 
@@ -15,6 +16,11 @@
         android:fitsSystemWindows="false"
         tools:openDrawer="start">
 
+        <include
+            layout="@layout/activity_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation_view"
@@ -28,9 +34,5 @@
 
     </android.support.v4.widget.DrawerLayout>
 
-    <include
-        layout="@layout/activity_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </RelativeLayout>

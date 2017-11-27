@@ -1,16 +1,20 @@
 package com.group3.glimpse;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -28,6 +32,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
@@ -51,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         TextView textView_8 = (TextView) findViewById(R.id.textView_8);
         TextView textView_9 = (TextView) findViewById(R.id.textView_9);
 
-        ArrayList<TextView> searchResults = new ArrayList<TextView>();
+        ArrayList<TextView> searchResults = new ArrayList<>();
         searchResults.add(textView_0);
         searchResults.add(textView_1);
         searchResults.add(textView_2);
@@ -63,43 +68,63 @@ public class SearchActivity extends AppCompatActivity {
         searchResults.add(textView_8);
         searchResults.add(textView_9);
 
+        for (TextView t : searchResults)
+        {
+            t.setOnClickListener(v -> {
+
+                int id = t.getId();
+                System.out.println("fetch mediaID: " + id);
+                loadMediaInfo(id);
+
+            });
+        }
+
         // Code to control auto-complete search box
         searchBox.announceForAccessibility("Search by title or category.");
+
+        searchBox.setOnClickListener(v -> searchBox.setText(""));
 
         // Functional code
         SearchBtn.setOnClickListener(v -> {
 
             ClearTextViews(searchResults);
 
-            final String whatWasSearched = searchBox.getText().toString();
+            final String whatWasSearched = searchBox.getText().toString().toLowerCase();
 
             ArrayList <Integer> results = new ArrayList<>();
+
             int n = 0;
 
             for (MediaDoc m : mediaList) {
+
+                // Break loop for more than 9 entries displayed
                 if(n >= 9) break;
+
                 // Allow up to four missed/incorrect characters for search results
                 if(whatWasSearched.length() == 0) {
+                    searchResults.get(0).setText("Please enter a valid search term!");
+                    break;
                 }
 
-                else if (m.getTitle().substring(0, whatWasSearched.length()-1).equalsIgnoreCase(whatWasSearched)) {
+                if (m.getTitle().toLowerCase().contains(whatWasSearched)) {
                     searchResults.get(n).setText(m.getTitle());
+                    searchResults.get(n).setId(m.getId());
                     n++;
                 }
-                // Search by category
-                else if (m.getCategory().equalsIgnoreCase(whatWasSearched)) {
-                    results.add(m.getId());
-                    searchResults.get(n).setText(m.getTitle());
-                    n++;
 
+                if (m.getCategory().toLowerCase().contains(whatWasSearched))
+                {
+                    searchResults.get(n).setText(m.getTitle());
+                    searchResults.get(n).setId(m.getId());
+                    n++;
                 }
             }
-
         });
+
         // Scheduled task to check for interruptions to network connectivity every second
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
-            if (isNetworkActive() != true)
+            if (!isNetworkActive())
                 Toast.makeText(getApplicationContext(), "[ERROR] Network connectivity interrupted!", Toast.LENGTH_LONG).show();
         }, 0, 1, TimeUnit.SECONDS);
 
@@ -107,9 +132,48 @@ public class SearchActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> finish());
     }
     // Method to clear the textViews on the results page
-    private void ClearTextViews(ArrayList<TextView> arrayList) {
-        for (TextView t: arrayList) t.setText("");
+    private void ClearTextViews(ArrayList<TextView> textList) {
+        for (TextView t : textList) t.setText("");
     }
+
+    private void loadMediaInfo(int mediaID)
+    {
+
+        for (MediaDoc m : HomePage.mediaList)
+
+            if (m.getId() == mediaID)
+            {
+                // Gets a byte array for the image to send to the loadMedia activity
+                ImageView icon = m.getMediaIcon();
+                icon.buildDrawingCache();
+                Bitmap img = icon.getDrawingCache();
+
+                ByteArrayOutputStream imgStream = new ByteArrayOutputStream();
+                img.compress(Bitmap.CompressFormat.JPEG, 100, imgStream);
+                byte[] imgBytes = imgStream.toByteArray();
+
+                String title = m.getTitle(), desc = m.getDescription(), cast = m.getCast();
+
+                /*
+                for (ImageView v : m.getImages())
+                {
+                    // get each image ready to package
+                }
+                */
+
+                Intent intent = new Intent(this, LoadMedia.class);
+
+                intent.putExtra("title", title);
+                intent.putExtra("mediaID", mediaID);
+                intent.putExtra("imgBytes", imgBytes);
+                intent.putExtra("description", desc);
+                intent.putExtra("cast", cast);
+
+                startActivity(intent);
+                break;
+            }
+    }
+
     private boolean isNetworkActive()
     {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

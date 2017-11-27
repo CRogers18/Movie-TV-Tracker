@@ -18,12 +18,12 @@
         completions."
     </string>
     <string name="my_image">my_image</string>
-    <string name="shows">Shows</string>
+    <string name="HomePage">Home Page</string>
     <string name="movies">Movies</string>
     <string name="tracked">tracked</string>
-    <string name="Tracked">Tracked</string>
-    <string name="notifications">Notifications</string>
-    <string name="suggestions">Suggestions</string>
+    <string name="Tracked">Your Tracked Content</string>
+    <string name="notifications">Notification Settings</string>
+    <string name="suggestions">Suggested Media</string>
     <string name="frequentlyAskedQuestions">Frequently Asked Questions</string>
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>

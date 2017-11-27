@@ -144,7 +144,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     long tStartUnix = Long.parseLong(tStart);
 
                     // Grab media images from storage
-                    ArrayList<ImageView> imageArray = getImagesForMedia(mediaID);
+                    ArrayList<ImageView> imageArray = getImagesForMedia(mediaID, isMovie);
 
                     MediaDoc mediaDoc = new MediaDoc(cast, tags, desc, isMovie, mediaID, tStart, title,
                             trailer, uploader, imageArray);
@@ -152,6 +152,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     // Add the mediaDoc to the reference array and increment mediaID
                     mediaList.add(mediaDoc);
                 }
+
+                movies.removeAllViews();
+                tv.removeAllViews();
 
                 for (MediaDoc m : mediaList)
                 {
@@ -174,7 +177,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    private ArrayList <ImageView> getImagesForMedia(int mediaID)
+    private ArrayList <ImageView> getImagesForMedia(int mediaID, boolean isMovie)
     {
         ArrayList <ImageView> mediaImages = new ArrayList<>();
         LinearLayout.LayoutParams layoutParm = new LinearLayout.LayoutParams(300, 500);
@@ -189,7 +192,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             ImageView mediaPic = new ImageView(this);
             try
             {
-                String location = "movies/" + mediaID + "_" + i + ".jpg";
+                String location = "";
+
+                if (isMovie)
+                    location = "movies/" + mediaID + "_" + i + ".jpg";
+                else
+                    location = "tv/" + mediaID + "_" + i + ".jpg";
+
                 System.out.println(location);
                 pathRef = storageRef.child(location);
 
@@ -270,15 +279,22 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         switch (id) {
 
-            case R.id.shows_id:
+            case R.id.home_id:
 
-                Toast.makeText(getApplicationContext(), "shows", Toast.LENGTH_LONG).show();
+                movies.removeAllViews();
+                tv.removeAllViews();
 
-                break;
-
-            case R.id.movies_id:
-
-                Toast.makeText(getApplicationContext(), "movies", Toast.LENGTH_LONG).show();
+                for (MediaDoc m : mediaList)
+                {
+                    if (m.isMovie()) {
+                        movies.addView(m.getMediaIcon());
+                    //    System.out.println("added icon for movie, ID: "+ m.getId());
+                    }
+                    else {
+                        tv.addView(m.getMediaIcon());
+                    //    System.out.println("added icon for tv show, ID: "+ m.getId());
+                    }
+                }
 
                 break;
 
@@ -327,8 +343,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             case R.id.suggestions_id:
 
-                Toast.makeText(getApplicationContext(), "suggestions", Toast.LENGTH_LONG).show();
-
                 movies.removeAllViews();
                 tv.removeAllViews();
 
@@ -368,6 +382,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             case R.id.frequentlyAskedQuestions_id:
 
+                // TODO: Swap to new activity for basic instructions for using app
                 Toast.makeText(getApplicationContext(), "frequently asked questions", Toast.LENGTH_LONG).show();
 
                 break;
@@ -377,8 +392,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
-
     }
+
     // Activity switcher
     private void launchSearch()
     {

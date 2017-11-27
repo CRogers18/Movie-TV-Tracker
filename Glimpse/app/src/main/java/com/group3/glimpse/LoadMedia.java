@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +50,7 @@ public class LoadMedia extends AppCompatActivity {
         else
             trackButton.setText("Track");
 
-        closeButton.setOnClickListener(v -> reloadHome());
+        closeButton.setOnClickListener(v -> reloadSource());
         trackButton.setOnClickListener(v -> {
 
             if (trackButton.getText().equals("Track")) {
@@ -69,10 +68,9 @@ public class LoadMedia extends AppCompatActivity {
         System.out.println("Title: " + title + "\nDescription: " + desc + "\nCast: " + cast);
     }
 
-    private void reloadHome()
+    private void reloadSource()
     {
-        Intent intent = new Intent(this, HomePage.class);
-        startActivity(intent);
+        finish();
     }
 
 }

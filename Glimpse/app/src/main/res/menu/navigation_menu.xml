@@ -3,29 +3,25 @@
 
 
     <group android:checkableBehavior="single">
-        <item
-            android:title="@string/shows"
-            android:id="@+id/shows.id"
-            android:icon="@drawable/television"/>
 
         <item
-            android:title="@string/movies"
-            android:id="@+id/movies.id"
-            android:icon="@drawable/television" />
+            android:id="@+id/home.id"
+            android:icon="@drawable/television"
+            android:title="@string/HomePage" />
 
         <item
-            android:title="@string/Tracked"
             android:id="@+id/tracked.id"
-            android:icon="@drawable/alert"/>
+            android:icon="@drawable/alert"
+            android:title="@string/Tracked" />
 
         <item
-            android:title="@string/notifications"
             android:id="@+id/notifications.id"
-            android:icon="@drawable/notification" />
+            android:icon="@drawable/notification"
+            android:title="@string/notifications" />
         <item
-            android:title="@string/suggestions"
             android:id="@+id/suggestions.id"
-            android:icon="@drawable/suggestion"/>
+            android:icon="@drawable/suggestion"
+            android:title="@string/suggestions" />
 
         <item
             android:title="@string/frequentlyAskedQuestions"
