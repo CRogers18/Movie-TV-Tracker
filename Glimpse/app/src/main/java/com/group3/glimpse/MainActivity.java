@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient gc;
     private static final int RC_SIGN_IN = 123;
     private static ArrayList<Integer> trackedIDs = new ArrayList<>(), nIDs = new ArrayList<>();
-    private static ArrayList<Long> notifications = new ArrayList<>();
+    private static ArrayList<NotificationSettings> notifications = new ArrayList<>();
 
     // Super stupid, but we're on a deadline
     public static User user = new User(uAuth, trackedIDs, notifications, nIDs);

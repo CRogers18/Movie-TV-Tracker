@@ -46,7 +46,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     HorizontalScrollView movieView, tvView;
-    LinearLayout movies, tv;
+    LinearLayout movies;
+    LinearLayout tv;
     static ArrayList <MediaDoc> mediaList;
 
     TextView title, description, actors;
@@ -93,12 +94,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
 
         // Switch to search if search button pressed
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchSearch();
-            }
-        });
+        searchButton.setOnClickListener(view -> launchSearch());
 
         // Scheduled task to check for interruptions to network connectivity every second
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -286,12 +282,15 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                 for (MediaDoc m : mediaList)
                 {
+                    ImageView icon = m.getMediaIcon();
+                    icon.setOnClickListener(v -> loadMediaInfo(m.getId()));
+
                     if (m.isMovie()) {
-                        movies.addView(m.getMediaIcon());
+                        movies.addView(icon);
                     //    System.out.println("added icon for movie, ID: "+ m.getId());
                     }
                     else {
-                        tv.addView(m.getMediaIcon());
+                        tv.addView(icon);
                     //    System.out.println("added icon for tv show, ID: "+ m.getId());
                     }
                 }
@@ -300,19 +299,21 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             case R.id.tracked_id:
 
-                Toast.makeText(getApplicationContext(), "tracked", Toast.LENGTH_LONG).show();
-
                 movies.removeAllViews();
                 tv.removeAllViews();
 
                 for (int i : MainActivity.user.getTrackedIDs())
                 {
                     for (MediaDoc m : mediaList) {
+
+                        ImageView icon = m.getMediaIcon();
+                        icon.setOnClickListener(v -> loadMediaInfo(m.getId()));
+
                         if (m.getId() == i) {
                             if (m.isMovie())
-                                movies.addView(m.getMediaIcon());
+                                movies.addView(icon);
                             else
-                                tv.addView(m.getMediaIcon());
+                                tv.addView(icon);
                         }
                     }
                 }
@@ -321,25 +322,26 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             case R.id.notifications_id:
 
-                launchNotifications();
-
                 // Same code as tracked, just a little extra for things you want to be notified about
                 movies.removeAllViews();
                 tv.removeAllViews();
 
-                for (int i : MainActivity.user.getNotificationIDs())
+                for (int i = 0; i < MainActivity.user.getNotificationIDs().size(); i++)
                 {
                     for (MediaDoc m : mediaList) {
-                        if (m.getId() == i) {
+
+                        if (m.getId() == MainActivity.user.getNotificationIDs().get(i)) {
+
+                            ImageView icon = m.getMediaIcon();
+                            icon.setOnClickListener(v -> launchNotifications(m.getTitle(), m.getId()));
+
                             if (m.isMovie())
-                                movies.addView(m.getMediaIcon());
+                                movies.addView(icon);
                             else
-                                tv.addView(m.getMediaIcon());
+                                tv.addView(icon);
                         }
                     }
                 }
-
-                Toast.makeText(getApplicationContext(), "notifications", Toast.LENGTH_LONG).show();
 
                 break;
 
@@ -377,7 +379,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                 else
                 {
-                    System.out.println("YO ADD SOME STUFF TO MAKE THIS SHIT EASIER MAN");
+                    System.out.println("YO ADD SOME STUFF");
                 }
 
                 break;
@@ -403,11 +405,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         startActivity(intent);
     }
 
-
     // Activity switcher
-    private void launchNotifications()
+    private void launchNotifications(String mediaTitle, int mediaID)
     {
         Intent intent = new Intent(this, NotificationActivity.class);
+        intent.putExtra("mediaID", mediaID);
+        intent.putExtra("mediaTitle", mediaTitle);
         startActivity(intent);
     }
 

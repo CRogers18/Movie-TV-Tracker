@@ -12,13 +12,13 @@ public class User {
 
     private FirebaseAuth userAuth;
     private ArrayList <Integer> trackedIDs, notificationIDs;
-    private ArrayList <Long> notificationSettings;
+    private ArrayList <NotificationSettings> nSettings;
 
-    public User(FirebaseAuth token, ArrayList<Integer> tIDs, ArrayList<Long> notifcations, ArrayList<Integer> nIDs)
+    public User(FirebaseAuth token, ArrayList<Integer> tIDs, ArrayList<NotificationSettings> notifcations, ArrayList<Integer> nIDs)
     {
         this.userAuth = token;
         this.trackedIDs = tIDs;
-        this.notificationSettings = notifcations;
+        this.nSettings = notifcations;
         this.notificationIDs = nIDs;
     }
 
@@ -30,11 +30,64 @@ public class User {
         return trackedIDs;
     }
 
-    public ArrayList<Long> getNotificationSettings() {
-        return notificationSettings;
+    public ArrayList<NotificationSettings> getnSettings() { return nSettings; }
+
+    public void addNotifcationSettings(int mediaID, int hour, boolean isDay)
+    {
+        NotificationSettings notif;
+
+        if (nSettings.size() == 0)
+        {
+            notif = new NotificationSettings(mediaID, hour, isDay);
+            nSettings.add(notif);
+        }
+
+        for (NotificationSettings n : nSettings) {
+            if (n.getNotifMediaID() == mediaID)
+                break;
+            else {
+                notif = new NotificationSettings(mediaID, hour, isDay);
+                nSettings.add(notif);
+                break;
+            }
+        }
+    }
+
+    public void removeNotificationSettings(int mediaID)
+    {
+        for (int i = 0; i < nSettings.size(); i++)
+        {
+            if (nSettings.get(i).getNotifMediaID() == mediaID) {
+                nSettings.remove(i);
+                System.out.println("[INFO] Removed notification for: " + mediaID);
+                break;
+            }
+        }
     }
 
     public ArrayList<Integer> getNotificationIDs() { return notificationIDs; }
+
+    public void addNotifcationID(int mediaID)
+    {
+        if (notificationIDs.contains(mediaID))
+            System.out.println("Already added, won't add duplicates!");
+        else {
+            notificationIDs.add(mediaID);
+            System.out.println("[INFO] Added " + mediaID + " to notification settings");
+        }
+    }
+
+    public void removeNotificationID(int mediaID)
+    {
+        for (int i = 0; i < notificationIDs.size(); i++)
+        {
+            if (notificationIDs.get(i).equals(mediaID)) {
+                notificationIDs.remove(i);
+                System.out.println("[INFO] Removed media: " + mediaID);
+                break;
+            }
+        }
+    }
 
     public void addTrackedMedia(int mediaID)
     {
@@ -44,11 +97,6 @@ public class User {
             trackedIDs.add(mediaID);
             System.out.println("[INFO] Added " + mediaID + " to tracked content");
         }
-
-        System.out.println("Current tracked content: ");
-
-        for (int i : trackedIDs)
-            System.out.println(i);
     }
 
     public void removeTrackedMedia(int mediaID)
@@ -61,11 +109,6 @@ public class User {
                 break;
             }
         }
-
-        System.out.println("Current tracked content: ");
-
-        for (int i : trackedIDs)
-            System.out.println(i);
     }
 
     public void logUserOut()

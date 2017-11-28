@@ -20,21 +20,20 @@
 
             <TextView
                 android:id="@+id/notificationTitle"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:text="@string/title_activity_loading" />
-
-            <ImageView
-                android:id="@+id/notificationImage"
-                android:layout_width="170dp"
-                android:layout_height="140dp"
-                android:contentDescription="@string/title_activity_loading" />
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:text="@string/title_activity_loading"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/notificationDescription"
                 android:layout_width="230dp"
                 android:layout_height="20dp"
-                android:text="Notify me when it's" />
+                android:text="Notify me when it's"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -56,14 +55,26 @@
                 </Spinner>
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/notificationButton"
+            <TextView
+                android:id="@+id/notifInfo"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:text="Notification set for: "
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/addNotificationBtn"
                 android:layout_width="250dp"
-                android:layout_height="105dp"
-                android:layout_alignBottom="@+id/linearLayout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="51dp"
-                android:src="@drawable/notifications" />
+                android:layout_height="wrap_content"
+                android:text="Set Notification" />
+
+            <Button
+                android:id="@+id/removeNotificationBtn"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Remove Notification" />
 
         </LinearLayout>
 

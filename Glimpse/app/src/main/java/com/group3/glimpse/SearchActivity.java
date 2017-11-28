@@ -138,7 +138,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void loadMediaInfo(int mediaID)
     {
-
         for (MediaDoc m : HomePage.mediaList)
 
             if (m.getId() == mediaID)
