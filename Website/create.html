@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link href="http://code.gijgo.com/1.6.1/css/gijgo.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="styles/create.css">
+
+</head>
+<body>
+	<nav class="navbar" style="background-color: #edf2f2;">
+		<a class="navbar-brand text-muted" href="index.html">Glimpse Production</a>
+		<div class="btn-group">
+			<button id="createButton" class="btn btn-success" type="button">Create</button>
+			<button id="accountButton" class="btn btn-outline-primary" type="button">Account</button>
+			<button id="logoffButton" class="btn btn-outline-primary" type="button"><i class="fa fa-power-off" aria-hidden="true"></i></button>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+			<div class="card">
+				<div class="card-header">Create Media</div>
+					<div class="card-body">
+						<div id="inputErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! Please fix the highlighted fields and try again. 
+						</div>
+						<div id="fileInputErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! The image(s) you have selected are not of the accepted .jpg file type. Please fix the highlighted fields and try again. 
+						</div>
+						<div id="datetErrorAlert" class="alert alert-danger" role="alert" hidden>
+							Error! The release date you've submitted is not of the format mm/dd/yyy. Please fix and try again.  
+						</div>
+						<form id="theForm">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="mediaName">Media Name</label>
+									<input type="text" class="form-control" id="mediaName" placeholder="Name" maxlength="49">
+								</div>
+								<div class="form-group col-md-3">
+									<label for="mediaFormat">Format</label>
+									<select name="Format" id="mediaFormat" class="form-control">
+										<option selected disabled>Choose...</option>
+		                    			<option>Movie</option>
+		                    			<option>TV Show</option>
+		                    		</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label for="category">Category</label>
+									<select name="Category" id="mediaCategory" class="form-control">
+										<option selected value=" " disabled>Choose...</option>
+		                    			<option>Action</option>
+		                    			<option>Adventure</option>
+		                    			<option>Comedy</option>
+		                    			<option>Drama</option>
+		                    			<option>Fantasy</option>
+		                    			<option>Horror</option>
+		                    			<option>Mystery</option>
+		                    			<option>Romance</option>
+		                    			<option>Sci-Fi</option>
+		                    			<option>Thriller</option>
+		                    		</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="mediaDescription">Description</label>
+								<textarea class="form-control" id="mediaDescription" rows="3" placeholder="Description" maxlength="499"></textarea>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="mediaCast">Cast</label>
+									<input type="text" class="form-control" id="mediaCast">
+								</div>
+								<div class="form-group col-md-3">
+									<label for="mediaTrailerLink">Trailer Link</label>
+									<input type="text" class="form-control" id="mediaTrailerLink">
+								</div>
+								<div class="form-group col-md-3">
+									<label for="mediaReleaseDate">Release Date</label>
+									<input class="form-control" id="mediaReleaseDate"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-5">
+									<label for="mediaImage">Upload Image</label>
+									<div class="input-group">
+										<span class="input-group-btn">
+											<span class="btn btn-light btn-file" type="button">
+												Browse <input type="file" id="mediaImage_0" class="mediaImage" imgNum="0" accept=".jpg">
+											</span>
+										</span>
+										<input type="text" class="form-control" id="mediaImageName_0" readonly>
+									</div>
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-3">
+									<img id='img-upload_0' class="img_upload" imgNum="0"/>
+								</div>
+							</div>
+							<div id="addImageRow" class="form-row">
+								<div class="form-group col-md-3">
+									<button id="addImageButton" type="button" class="btn btn-outline-dark addImageButton">Add Image</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-md-10 progress-container">
+							    <div class="progress active">
+							        <div id="submitProgressBar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width:0%"></div>
+							    </div>
+							</div>
+							<div class="col-md-2 float-right">
+								<button id="submitButton" type = "button" class="btn btn-success float-right">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+<script src="http://code.gijgo.com/1.6.1/js/gijgo.js" type="text/javascript"></script>
+<script src="scripts/create.js"></script>
