@@ -321,6 +321,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             case R.id.notifications_id:
 
+                launchNotifications();
+
                 // Same code as tracked, just a little extra for things you want to be notified about
                 movies.removeAllViews();
                 tv.removeAllViews();
@@ -400,5 +402,14 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
+
+    // Activity switcher
+    private void launchNotifications()
+    {
+        Intent intent = new Intent(this, NotificationActivity.class);
+        startActivity(intent);
+    }
+
 
 }

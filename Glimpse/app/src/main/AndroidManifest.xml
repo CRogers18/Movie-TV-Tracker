@@ -41,7 +41,8 @@
 
         <activity android:name=".HomePage" />
         <activity android:name=".LoadMedia" />
-        <activity android:name=".SearchActivity">
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".NotificationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
