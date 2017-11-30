@@ -82,7 +82,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         movies = (LinearLayout) findViewById(R.id.movieList);
         tv = (LinearLayout) findViewById(R.id.tvList);
         movieView = (HorizontalScrollView) findViewById(R.id.movies);
-        // Search button
         searchButton = (ImageButton) findViewById(R.id.searchButton);
 
         movies.setGravity(Gravity.CENTER);
@@ -182,7 +181,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         StorageReference storageRef = storage.getReferenceFromUrl("gs://poosd-test.appspot.com/");
         StorageReference pathRef;
 
-        // Tries to load 1 images associated with that mediaID if they exist
+        // Tries to load 1 image associated with that mediaID if they exist
         for (int i = 0; i < 1; i++)
         {
             ImageView mediaPic = new ImageView(this);
@@ -352,25 +351,28 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                 if (MainActivity.user.getTrackedIDs().size() > 0)
                 {
-                    int rId = MainActivity.user.getTrackedIDs().get(0);
-                    String cat = "meow";    // bad joke, I know
+                    for (int i = 0; i < MainActivity.user.getTrackedIDs().size(); i++) {
 
-                    // Find the media tracked by the user and get its category
-                    for (MediaDoc m : mediaList) {
-                        if (m.getId() == rId) {
-                            cat = m.getCategory();
-                            break;
+                        int rId = MainActivity.user.getTrackedIDs().get(i);
+                        String cat = "meow";    // bad joke, I know
+
+                        // Find the media tracked by the user and get its category
+                        for (MediaDoc m : mediaList) {
+                            if (m.getId() == rId) {
+                                cat = m.getCategory();
+                                break;
+                            }
                         }
-                    }
 
-                    for (MediaDoc m : mediaList) {
+                        for (MediaDoc m : mediaList) {
 
-                        // If the categories match and the media isn't already tracked by the user, add it to the view
-                        if (m.getCategory().contains(cat) && !MainActivity.user.getTrackedIDs().contains(m.getId())) {
-                            if (m.isMovie())
-                                movies.addView(m.getMediaIcon());
-                            else
-                                tv.addView(m.getMediaIcon());
+                            // If the categories match and the media isn't already tracked by the user, add it to the view
+                            if (m.getCategory().contains(cat) && !MainActivity.user.getTrackedIDs().contains(m.getId())) {
+                                if (m.isMovie())
+                                    movies.addView(m.getMediaIcon());
+                                else
+                                    tv.addView(m.getMediaIcon());
+                            }
                         }
                     }
 
@@ -378,17 +380,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 }
 
                 else
-                {
                     System.out.println("YO ADD SOME STUFF");
-                }
 
                 break;
 
             case R.id.frequentlyAskedQuestions_id:
 
-                // TODO: Swap to new activity for basic instructions for using app
-                Toast.makeText(getApplicationContext(), "frequently asked questions", Toast.LENGTH_LONG).show();
-
+                launchFAQ();
                 break;
 
         }
@@ -414,5 +412,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         startActivity(intent);
     }
 
+    public void launchFAQ()
+    {
+        Intent intent = new Intent(this, FAQActivity.class);
+        startActivity(intent);
+    }
 
 }

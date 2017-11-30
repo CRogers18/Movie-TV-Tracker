@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+
+        <LinearLayout
+            android:layout_width="334dp"
+            android:layout_height="510dp"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:text="Glimpse: Frequently Asked Questions"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30dp" />
+
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:text="1) How do I track my favorite movies or television shows?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:text="Click on your favorite image and/or movie and click track."
+                android:textSize="13dp" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:text="2) How do I view my tracked movies or television shows?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+
+            <TextView
+
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:text="Click on 'Your Tracked Content' in the navigation page."
+                android:textSize="13dp" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="75dp"
+                android:text="3) How do I Search for my favorite movie and/or television show?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+
+            <TextView
+
+                android:layout_width="230dp"
+                android:layout_height="80dp"
+                android:text="Click on the magnifying glass on the home page and it will bring you to the search screen. Once there, click on 'Search' to search for what you're looking for."
+                android:textSize="13dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:text="4) How do set a Notification?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+
+            <TextView
+
+                android:layout_width="230dp"
+                android:layout_height="70dp"
+                android:text="Click on track after clicking on an image on home screen which will allow the notification button to appear. Once there click on it to set a notification."
+                android:textSize="13dp" />
+
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/com_facebook_button_send_background_color_pressed"
+                android:text="Back" />
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

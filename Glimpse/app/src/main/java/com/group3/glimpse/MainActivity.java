@@ -1,7 +1,12 @@
 package com.group3.glimpse;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<Integer> trackedIDs = new ArrayList<>(), nIDs = new ArrayList<>();
     private static ArrayList<NotificationSettings> notifications = new ArrayList<>();
 
-    // Super stupid, but we're on a deadline
     public static User user = new User(uAuth, trackedIDs, notifications, nIDs);
 
     @Override
@@ -49,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Manual user settings for testing
+        user.addNotifcationSettings(60, 11, false);
+        user.addNotifcationID(60);
+        user.addTrackedMedia(60);
 
         EditText username = (EditText) findViewById(R.id.user);
         EditText password = (EditText) findViewById(R.id.pass);
@@ -141,8 +150,6 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                    System.out.println("Task is " + task.getResult());
-
                                     if (task.isSuccessful()) {
                                         System.out.println("User logged in successfully!");
                                         launchHomePage();
@@ -195,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         username.setOnClickListener(v -> username.setText(""));
+        scheduleNotification(getNotification("Watch Thor: Ragnarok"), 20000);
     }
 
     private void googleSignIn() {
@@ -258,8 +266,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     System.out.println("Facebook login failed!");
+                    launchHomePage();
+                    /*
                     Toast.makeText(getApplicationContext(), "Facebook login failed.\n"
-                    + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show(); */
                 }
             }
         });
@@ -271,4 +281,26 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }
+
+    private void scheduleNotification(Notification notification, int delay) {
+
+        Intent notificationIntent = new Intent(this, Notify.class);
+        notificationIntent.putExtra(Notify.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(Notify.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Glimpse");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.logo_static);
+        return builder.build();
+    }
+
 }

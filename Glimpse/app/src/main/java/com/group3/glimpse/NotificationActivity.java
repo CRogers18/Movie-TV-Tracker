@@ -1,5 +1,8 @@
 package com.group3.glimpse;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 
 public class NotificationActivity extends AppCompatActivity {
@@ -104,6 +109,14 @@ public class NotificationActivity extends AppCompatActivity {
             int selectHour = Integer.parseInt(num_time.getSelectedItem().toString());
 
             // Schedule notification here
+            Intent i = new Intent(this, Notify.class);
+            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+            PendingIntent p = PendingIntent.getActivity(this, 0, i, 0);
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, selectHour);
+            cal.set(Calendar.MINUTE, 00);
+            cal.set(Calendar.SECOND, 00);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, p);
 
             MainActivity.user.addNotifcationSettings(mediaID, selectHour, isDay);
             notifInfo.setVisibility(View.VISIBLE);
