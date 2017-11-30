@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-
         <item
             android:id="@+id/home.id"
             android:icon="@drawable/television"
             android:title="@string/HomePage" />
-
         <item
             android:id="@+id/tracked.id"
             android:icon="@drawable/alert"
             android:title="@string/Tracked" />
-
         <item
             android:id="@+id/notifications.id"
             android:icon="@drawable/notification"
@@ -22,12 +18,9 @@
             android:id="@+id/suggestions.id"
             android:icon="@drawable/suggestion"
             android:title="@string/suggestions" />
-
         <item
             android:title="@string/frequentlyAskedQuestions"
             android:id="@+id/frequentlyAskedQuestions.id"
             android:icon="@drawable/suggestion"/>
     </group>
-
-
 </menu>

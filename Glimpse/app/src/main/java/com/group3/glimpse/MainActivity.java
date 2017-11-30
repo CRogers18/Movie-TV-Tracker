@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager cbm;
     private GoogleApiClient gc;
     private static final int RC_SIGN_IN = 123;
-    private static ArrayList<Integer> trackedIDs = new ArrayList<>(), nIDs = new ArrayList<>();
-    private static ArrayList<NotificationSettings> notifications = new ArrayList<>();
+    private static ArrayList < Integer > trackedIDs = new ArrayList < > (), nIDs = new ArrayList < > ();
+    private static ArrayList < NotificationSettings > notifications = new ArrayList < > ();
 
     public static User user = new User(uAuth, trackedIDs, notifications, nIDs);
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         facebookBtn.setReadPermissions("email", "public_profile");
 
         // Callback to check that user login to facebook was successful
-        facebookBtn.registerCallback(cbm, new FacebookCallback<LoginResult>() {
+        facebookBtn.registerCallback(cbm, new FacebookCallback < LoginResult > () {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 System.out.println("Facebook login attempt success! " + loginResult);
@@ -116,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     // Inform users of failed connections
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                         System.out.println("Error connection failed to GoogleAPI!");
-                        Toast.makeText(getApplicationContext(), "Connection failed.\n"
-                                + connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Connection failed.\n" + connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -145,18 +144,17 @@ public class MainActivity extends AppCompatActivity {
                 if (newUserBtn.getVisibility() != View.INVISIBLE) {
 
                     uAuth.signInWithEmailAndPassword(user, pw)
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(this, new OnCompleteListener < AuthResult > () {
 
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                public void onComplete(@NonNull Task < AuthResult > task) {
 
                                     if (task.isSuccessful()) {
                                         System.out.println("User logged in successfully!");
                                         launchHomePage();
                                     } else {
                                         System.out.println("Login failed!");
-                                        Toast.makeText(getApplicationContext(), "Login failed.\n"
-                                                        + task.getException().getLocalizedMessage(),
+                                        Toast.makeText(getApplicationContext(), "Login failed.\n" + task.getException().getLocalizedMessage(),
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -167,28 +165,25 @@ public class MainActivity extends AppCompatActivity {
                 // If they selected new user, create new account first
                 else {
                     // Prevent account creation with weak passwords
-                    if(pw.toLowerCase().compareTo("password") != 0) {
+                    if (pw.toLowerCase().compareTo("password") != 0) {
                         uAuth.createUserWithEmailAndPassword(user, pw)
-                                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                .addOnCompleteListener(this, new OnCompleteListener < AuthResult > () {
                                     @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                    public void onComplete(@NonNull Task < AuthResult > task) {
                                         if (task.isSuccessful()) {
                                             System.out.println("Account created successfully!");
                                             launchHomePage();
                                         } else {
                                             System.out.println("Account creation failed!");
                                             Toast.makeText(getBaseContext(), "Account creation " +
-                                                            "failed.\n"
-                                                            + task.getException().getLocalizedMessage(),
+                                                            "failed.\n" + task.getException().getLocalizedMessage(),
                                                     Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
-                    }
-
-                    else {
+                    } else {
                         Toast.makeText(getApplicationContext(), "Please use a stronger password." +
-                                "\nTry including letters, numbers, and symbols.",
+                                        "\nTry including letters, numbers, and symbols.",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
@@ -236,17 +231,15 @@ public class MainActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acc) {
         AuthCredential cred = GoogleAuthProvider.getCredential(acc.getIdToken(), null);
 
-        uAuth.signInWithCredential(cred).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        uAuth.signInWithCredential(cred).addOnCompleteListener(this, new OnCompleteListener < AuthResult > () {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onComplete(@NonNull Task < AuthResult > task) {
                 if (task.isSuccessful()) {
                     System.out.println("User logged in to Glimpse w/ Google successfully!");
                     launchHomePage();
-                }
-                else {
+                } else {
                     System.out.println("User login to Glimpse w/ Google failed!");
-                    Toast.makeText(getApplicationContext(), "Google login failed.\n"
-                            + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Google login failed.\n" + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -257,27 +250,25 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Handling token: " + token);
 
         AuthCredential cred = FacebookAuthProvider.getCredential(token.getToken());
-        uAuth.signInWithCredential(cred).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        uAuth.signInWithCredential(cred).addOnCompleteListener(this, new OnCompleteListener < AuthResult > () {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onComplete(@NonNull Task < AuthResult > task) {
                 if (task.isSuccessful()) {
                     System.out.println("User signed in via Facebook successfully!");
                     launchHomePage();
-                }
-                else {
+                } else {
                     System.out.println("Facebook login failed!");
                     launchHomePage();
-                    /*
-                    Toast.makeText(getApplicationContext(), "Facebook login failed.\n"
-                    + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show(); */
+     /*
+     Toast.makeText(getApplicationContext(), "Facebook login failed.\n"
+     + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show(); */
                 }
             }
         });
     }
 
     // Activity switcher
-    private void launchHomePage()
-    {
+    private void launchHomePage() {
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }
@@ -290,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 

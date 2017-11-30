@@ -20,14 +20,13 @@ public class MediaDoc implements Serializable {
     private final String category, cast, description, releaseDate, title, trailerLink, uploader;
     private final boolean isMovie;
     private final int id;
-    private final ArrayList<ImageView> images = new ArrayList<>();
+    private final ArrayList < ImageView > images = new ArrayList < > ();
 
     // Constructor for MediaDoc. Takes categories from database and converts them to easy to use
     // variables for the app.
-    public MediaDoc (String cast, String category, String description, boolean isMovie, int id,
-                     String releaseDate, String title, String trailerLink, String uploader,
-                     ArrayList<ImageView> images)
-    {
+    public MediaDoc(String cast, String category, String description, boolean isMovie, int id,
+                    String releaseDate, String title, String trailerLink, String uploader,
+                    ArrayList < ImageView > images) {
         this.cast = cast;
         this.category = category;
         this.description = description;
@@ -53,7 +52,9 @@ public class MediaDoc implements Serializable {
     public int getId() {
         return id;
     }
-    public boolean isMovie() { return isMovie; }
+    public boolean isMovie() {
+        return isMovie;
+    }
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -66,12 +67,15 @@ public class MediaDoc implements Serializable {
     public String getUploader() {
         return uploader;
     }
-    public ImageView getMediaIcon() { return images.get(0); }
-    public ArrayList<ImageView> getImages() { return images; }
+    public ImageView getMediaIcon() {
+        return images.get(0);
+    }
+    public ArrayList < ImageView > getImages() {
+        return images;
+    }
 
     // Convert the UST to a string date only for movies or time and date for TV shows
-    private String convertToDate(String releaseDate, boolean isMovie)
-    {
+    private String convertToDate(String releaseDate, boolean isMovie) {
         long tStartConverted = Long.parseLong(releaseDate) * 1000;
         Date date = new Date(tStartConverted);
         String release = date.toString();
@@ -81,7 +85,7 @@ public class MediaDoc implements Serializable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(isMovie)
+        if (isMovie)
             return new SimpleDateFormat("MM/dd/yyyy").format(date);
         else
             return new SimpleDateFormat("MM/dd/yyyy hh:mm aa").format(date);

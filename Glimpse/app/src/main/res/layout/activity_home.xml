@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,7 +11,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="73dp"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
@@ -20,12 +19,10 @@
             android:textAlignment="textStart"
             android:textSize="30sp"
             android:textStyle="bold" />
-
         <HorizontalScrollView
             android:id="@+id/movies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:id="@+id/movieList"
                 android:layout_width="wrap_content"
@@ -33,9 +30,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp" />
-
         </HorizontalScrollView>
-
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
@@ -44,12 +39,10 @@
             android:textAlignment="textStart"
             android:textSize="30sp"
             android:textStyle="bold" />
-
         <HorizontalScrollView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:id="@+id/tvList"
                 android:layout_width="wrap_content"
@@ -57,10 +50,8 @@
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp" />
-
         </HorizontalScrollView>
     </LinearLayout>
-
     <ImageButton
         android:id="@+id/searchButton"
         android:layout_width="60dp"
@@ -70,5 +61,4 @@
         android:backgroundTint="@color/com_facebook_button_background_color_pressed"
         android:tint="@color/cardview_light_background"
         app:srcCompat="@android:drawable/ic_search_category_default" />
-
 </RelativeLayout>

@@ -58,7 +58,7 @@ public class NotificationActivity extends AppCompatActivity {
             num_time.setVisibility(View.INVISIBLE);
             am_or_pm.setVisibility(View.INVISIBLE);
 
-            for (NotificationSettings n : MainActivity.user.getnSettings()) {
+            for (NotificationSettings n: MainActivity.user.getnSettings()) {
 
                 System.out.println("Found media " + n.getNotifMediaID());
 
@@ -76,9 +76,7 @@ public class NotificationActivity extends AppCompatActivity {
 
             notifInfo.setVisibility(View.VISIBLE);
             description.setVisibility(View.INVISIBLE);
-        }
-
-        else {
+        } else {
 
             System.out.println("ID NOT found in notificationIDs for user");
 
@@ -110,7 +108,7 @@ public class NotificationActivity extends AppCompatActivity {
 
             // Schedule notification here
             Intent i = new Intent(this, Notify.class);
-            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
             PendingIntent p = PendingIntent.getActivity(this, 0, i, 0);
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY, selectHour);

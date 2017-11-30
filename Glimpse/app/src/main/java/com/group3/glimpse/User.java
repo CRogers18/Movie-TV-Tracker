@@ -11,11 +11,10 @@ import java.util.ArrayList;
 public class User {
 
     private FirebaseAuth userAuth;
-    private ArrayList <Integer> trackedIDs, notificationIDs;
-    private ArrayList <NotificationSettings> nSettings;
+    private ArrayList < Integer > trackedIDs, notificationIDs;
+    private ArrayList < NotificationSettings > nSettings;
 
-    public User(FirebaseAuth token, ArrayList<Integer> tIDs, ArrayList<NotificationSettings> notifcations, ArrayList<Integer> nIDs)
-    {
+    public User(FirebaseAuth token, ArrayList < Integer > tIDs, ArrayList < NotificationSettings > notifcations, ArrayList < Integer > nIDs) {
         this.userAuth = token;
         this.trackedIDs = tIDs;
         this.nSettings = notifcations;
@@ -26,23 +25,23 @@ public class User {
         return userAuth;
     }
 
-    public ArrayList<Integer> getTrackedIDs() {
+    public ArrayList < Integer > getTrackedIDs() {
         return trackedIDs;
     }
 
-    public ArrayList<NotificationSettings> getnSettings() { return nSettings; }
+    public ArrayList < NotificationSettings > getnSettings() {
+        return nSettings;
+    }
 
-    public void addNotifcationSettings(int mediaID, int hour, boolean isDay)
-    {
+    public void addNotifcationSettings(int mediaID, int hour, boolean isDay) {
         NotificationSettings notif;
 
-        if (nSettings.size() == 0)
-        {
+        if (nSettings.size() == 0) {
             notif = new NotificationSettings(mediaID, hour, isDay);
             nSettings.add(notif);
         }
 
-        for (NotificationSettings n : nSettings) {
+        for (NotificationSettings n: nSettings) {
             if (n.getNotifMediaID() == mediaID)
                 break;
             else {
@@ -53,10 +52,8 @@ public class User {
         }
     }
 
-    public void removeNotificationSettings(int mediaID)
-    {
-        for (int i = 0; i < nSettings.size(); i++)
-        {
+    public void removeNotificationSettings(int mediaID) {
+        for (int i = 0; i < nSettings.size(); i++) {
             if (nSettings.get(i).getNotifMediaID() == mediaID) {
                 nSettings.remove(i);
                 System.out.println("[INFO] Removed notification for: " + mediaID);
@@ -65,10 +62,11 @@ public class User {
         }
     }
 
-    public ArrayList<Integer> getNotificationIDs() { return notificationIDs; }
+    public ArrayList < Integer > getNotificationIDs() {
+        return notificationIDs;
+    }
 
-    public void addNotifcationID(int mediaID)
-    {
+    public void addNotifcationID(int mediaID) {
         if (notificationIDs.contains(mediaID))
             System.out.println("Already added, won't add duplicates!");
         else {
@@ -77,10 +75,8 @@ public class User {
         }
     }
 
-    public void removeNotificationID(int mediaID)
-    {
-        for (int i = 0; i < notificationIDs.size(); i++)
-        {
+    public void removeNotificationID(int mediaID) {
+        for (int i = 0; i < notificationIDs.size(); i++) {
             if (notificationIDs.get(i).equals(mediaID)) {
                 notificationIDs.remove(i);
                 System.out.println("[INFO] Removed media: " + mediaID);
@@ -89,8 +85,7 @@ public class User {
         }
     }
 
-    public void addTrackedMedia(int mediaID)
-    {
+    public void addTrackedMedia(int mediaID) {
         if (trackedIDs.contains(mediaID))
             System.out.println("Already added, won't add duplicates!");
         else {
@@ -99,10 +94,8 @@ public class User {
         }
     }
 
-    public void removeTrackedMedia(int mediaID)
-    {
-        for (int i = 0; i < trackedIDs.size(); i++)
-        {
+    public void removeTrackedMedia(int mediaID) {
+        for (int i = 0; i < trackedIDs.size(); i++) {
             if (trackedIDs.get(i).equals(mediaID)) {
                 trackedIDs.remove(i);
                 System.out.println("[INFO] Removed media: " + mediaID);
@@ -111,8 +104,7 @@ public class User {
         }
     }
 
-    public void logUserOut()
-    {
+    public void logUserOut() {
         userAuth.signOut();
         System.out.println("User logged out successfully!");
     }

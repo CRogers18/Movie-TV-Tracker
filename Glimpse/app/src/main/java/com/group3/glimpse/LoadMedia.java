@@ -67,9 +67,7 @@ public class LoadMedia extends AppCompatActivity {
                 MainActivity.user.addTrackedMedia(mediaID);
                 trackButton.setText("Un-Track");
                 notifButtn.setVisibility(View.VISIBLE);
-            }
-
-            else {
+            } else {
                 MainActivity.user.removeTrackedMedia(mediaID);
                 trackButton.setText("Track");
                 notifButtn.setVisibility(View.INVISIBLE);
@@ -91,8 +89,7 @@ public class LoadMedia extends AppCompatActivity {
 
     }
 
-    private void reloadSource()
-    {
+    private void reloadSource() {
         finish();
     }
 

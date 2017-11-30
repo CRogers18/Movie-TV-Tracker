@@ -10,8 +10,7 @@ public class NotificationSettings {
     private boolean isDay;
     private int notifMediaID, hour, notificationID;
 
-    public NotificationSettings(int nID, int hour, boolean isDay)
-    {
+    public NotificationSettings(int nID, int hour, boolean isDay) {
         this.notifMediaID = nID;
         this.hour = hour;
         this.isDay = isDay;

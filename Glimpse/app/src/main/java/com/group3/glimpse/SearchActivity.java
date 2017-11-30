@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         // Create array containing all the media in the database
-        ArrayList<MediaDoc> mediaList = HomePage.mediaList;
+        ArrayList < MediaDoc > mediaList = HomePage.mediaList;
 
         // Create variables for the fields in the xml file
         Button SearchBtn = (Button) findViewById(R.id.searchBtn);
@@ -56,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         TextView textView_8 = (TextView) findViewById(R.id.textView_8);
         TextView textView_9 = (TextView) findViewById(R.id.textView_9);
 
-        ArrayList<TextView> searchResults = new ArrayList<>();
+        ArrayList < TextView > searchResults = new ArrayList < > ();
         searchResults.add(textView_0);
         searchResults.add(textView_1);
         searchResults.add(textView_2);
@@ -68,8 +68,7 @@ public class SearchActivity extends AppCompatActivity {
         searchResults.add(textView_8);
         searchResults.add(textView_9);
 
-        for (TextView t : searchResults)
-        {
+        for (TextView t: searchResults) {
             t.setOnClickListener(v -> {
 
                 int id = t.getId();
@@ -91,17 +90,17 @@ public class SearchActivity extends AppCompatActivity {
 
             final String whatWasSearched = searchBox.getText().toString().toLowerCase();
 
-            ArrayList <Integer> results = new ArrayList<>();
+            ArrayList < Integer > results = new ArrayList < > ();
 
             int n = 0;
 
-            for (MediaDoc m : mediaList) {
+            for (MediaDoc m: mediaList) {
 
                 // Break loop for more than 9 entries displayed
-                if(n >= 9) break;
+                if (n >= 9) break;
 
                 // Allow up to four missed/incorrect characters for search results
-                if(whatWasSearched.length() == 0) {
+                if (whatWasSearched.length() == 0) {
                     searchResults.get(0).setText("Please enter a valid search term!");
                     break;
                 }
@@ -112,8 +111,7 @@ public class SearchActivity extends AppCompatActivity {
                     n++;
                 }
 
-                if (m.getCategory().toLowerCase().contains(whatWasSearched))
-                {
+                if (m.getCategory().toLowerCase().contains(whatWasSearched)) {
                     searchResults.get(n).setText(m.getTitle());
                     searchResults.get(n).setId(m.getId());
                     n++;
@@ -132,16 +130,14 @@ public class SearchActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> finish());
     }
     // Method to clear the textViews on the results page
-    private void ClearTextViews(ArrayList<TextView> textList) {
-        for (TextView t : textList) t.setText("");
+    private void ClearTextViews(ArrayList < TextView > textList) {
+        for (TextView t: textList) t.setText("");
     }
 
-    private void loadMediaInfo(int mediaID)
-    {
-        for (MediaDoc m : HomePage.mediaList)
+    private void loadMediaInfo(int mediaID) {
+        for (MediaDoc m: HomePage.mediaList)
 
-            if (m.getId() == mediaID)
-            {
+            if (m.getId() == mediaID) {
                 // Gets a byte array for the image to send to the loadMedia activity
                 ImageView icon = m.getMediaIcon();
                 icon.buildDrawingCache();
@@ -153,12 +149,12 @@ public class SearchActivity extends AppCompatActivity {
 
                 String title = m.getTitle(), desc = m.getDescription(), cast = m.getCast();
 
-                /*
-                for (ImageView v : m.getImages())
-                {
-                    // get each image ready to package
-                }
-                */
+   /*
+   for (ImageView v : m.getImages())
+   {
+       // get each image ready to package
+   }
+   */
 
                 Intent intent = new Intent(this, LoadMedia.class);
 
@@ -173,8 +169,7 @@ public class SearchActivity extends AppCompatActivity {
             }
     }
 
-    private boolean isNetworkActive()
-    {
+    private boolean isNetworkActive() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 

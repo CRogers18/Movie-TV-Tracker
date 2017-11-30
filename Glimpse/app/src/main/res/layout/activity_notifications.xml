@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF" >
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_margin="20dp"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
-
         <LinearLayout
             android:layout_width="334dp"
             android:layout_height="510dp"
             android:layout_margin="3dp"
             android:gravity="center"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/notificationTitle"
                 android:layout_width="250dp"
@@ -26,7 +24,6 @@
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:id="@+id/notificationDescription"
                 android:layout_width="230dp"
@@ -34,7 +31,6 @@
                 android:text="Notify me when it's"
                 android:textAlignment="center"
                 android:textSize="18sp" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -42,19 +38,13 @@
                     android:id="@+id/notification_num_time"
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:entries="@array/notification_time">
-
-                </Spinner>
-
+                    android:entries="@array/notification_time"></Spinner>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
                     android:id="@+id/notification_am_or_pm"
-                    android:entries="@array/notification_night_or_day">
-
-                </Spinner>
+                    android:entries="@array/notification_night_or_day"></Spinner>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/notifInfo"
                 android:layout_width="300dp"
@@ -63,22 +53,17 @@
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
-
             <Button
                 android:id="@+id/addNotificationBtn"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="Set Notification" />
-
             <Button
                 android:id="@+id/removeNotificationBtn"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="Remove Notification" />
-
         </LinearLayout>
-
-
     </LinearLayout>
     <ImageView
         android:id="@+id/closeNotification"
@@ -87,5 +72,4 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/close"
         />
-
 </RelativeLayout>
