@@ -17,17 +17,14 @@
     cursor: inherit;
     display: block;
 }
-
-.img_upload{
+.img_upload {
     width: 100%;
 }
-
 .progress.active .progress-bar {
     -webkit-transition: none !important;
     transition: none !important;
     height: 38px;
 }
-
 .progress {
     height: 38px;
 }
