@@ -1,7 +1,6 @@
-<!--- TODO modify this file so fields all fill in with data based on id handed off in url -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -16,29 +15,31 @@
 	<link rel="stylesheet" href="styles/edit.css">
 
 </head>
+
 <body>
 	<nav class="navbar" style="background-color: #edf2f2;">
 		<a class="navbar-brand text-muted" href="index.html">Glimpse Production</a>
 		<div class="btn-group">
 			<button id="createButton" class="btn btn-outline-success" type="button">Create</button>
 			<button id="accountButton" class="btn btn-outline-primary" type="button">Account</button>
-			<button id="logoffButton" class="btn btn-outline-primary" type="button"><i class="fa fa-power-off" aria-hidden="true"></i></button>
+			<button id="logoffButton" class="btn btn-outline-primary" type="button"><i class="fa fa-power-off" aria-hidden="true"></i>
+			</button>
 		</div>
 	</nav>
 	<div class="container">
 		<div class="row">
 			<div class="col">
-			<div class="card">
-				<div class="card-header">Create Media</div>
+				<div class="card">
+					<div class="card-header">Create Media</div>
 					<div class="card-body">
 						<div id="inputErrorAlert" class="alert alert-danger" role="alert" hidden>
-							Error! Please fix the highlighted fields and try again. 
+							Error! Please fix the highlighted fields and try again.
 						</div>
 						<div id="fileInputErrorAlert" class="alert alert-danger" role="alert" hidden>
-							Error! The image(s) you have selected are not of the accepted .jpg file type. Please fix the highlighted fields and try again. 
+							Error! The image(s) you have selected are not of the accepted .jpg file type. Please fix the highlighted fields and try again.
 						</div>
 						<div id="datetErrorAlert" class="alert alert-danger" role="alert" hidden>
-							Error! The release date you've submitted is not of the format mm/dd/yyy. Please fix and try again.  
+							Error! The release date you've submitted is not of the format mm/dd/yyy. Please fix and try again.
 						</div>
 						<form id="theForm">
 							<div class="form-row">
@@ -50,25 +51,25 @@
 									<label for="mediaFormat">Format</label>
 									<select name="Format" id="mediaFormat" class="form-control required" disabled="true">
 										<option selected disabled>Choose...</option>
-		                    			<option>Movie</option>
-		                    			<option>TV Show</option>
-		                    		</select>
+										<option>Movie</option>
+										<option>TV Show</option>
+									</select>
 								</div>
 								<div class="form-group col-md-3">
 									<label for="category">Category</label>
 									<select name="Category" id="mediaCategory" class="form-control required">
 										<option selected value=" " disabled>Choose...</option>
-		                    			<option>Action</option>
-		                    			<option>Adventure</option>
-		                    			<option>Comedy</option>
-		                    			<option>Drama</option>
-		                    			<option>Fantasy</option>
-		                    			<option>Horror</option>
-		                    			<option>Mystery</option>
-		                    			<option>Romance</option>
-		                    			<option>Sci-Fi</option>
-		                    			<option>Thriller</option>
-		                    		</select>
+										<option>Action</option>
+										<option>Adventure</option>
+										<option>Comedy</option>
+										<option>Drama</option>
+										<option>Fantasy</option>
+										<option>Horror</option>
+										<option>Mystery</option>
+										<option>Romance</option>
+										<option>Sci-Fi</option>
+										<option>Thriller</option>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -86,7 +87,7 @@
 								</div>
 								<div class="form-group col-md-3">
 									<label for="mediaReleaseDate">Release Date</label>
-									<input class="form-control required" id="mediaReleaseDate"/>
+									<input class="form-control required" id="mediaReleaseDate" />
 								</div>
 							</div>
 							<div class="form-row">
@@ -103,7 +104,7 @@
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-3">
-									<img id='img-upload_0' class="img_upload" imgNum="0"/>
+									<img id='img-upload_0' class="img_upload" imgNum="0" />
 								</div>
 							</div>
 							<div id="addImageRow" class="form-row">
@@ -116,15 +117,15 @@
 					<div class="card-footer">
 						<div class="row">
 							<div class="col-md-2 float-right">
-								<button id="deleteButton" type = "button" class="btn btn-danger float-left">Delete</button>
+								<button id="deleteButton" type="button" class="btn btn-danger float-left">Delete</button>
 							</div>
 							<div class="col-md-8 progress-container">
-							    <div class="progress active">
-							        <div id="submitProgressBar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width:0%"></div>
-							    </div>
+								<div class="progress active">
+									<div id="submitProgressBar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width:0%"></div>
+								</div>
 							</div>
 							<div class="col-md-2 float-right">
-								<button id="saveButton" type = "button" class="btn btn-success float-right">Save</button>
+								<button id="saveButton" type="button" class="btn btn-success float-right">Save</button>
 							</div>
 						</div>
 					</div>
@@ -133,6 +134,7 @@
 		</div>
 	</div>
 </body>
+
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

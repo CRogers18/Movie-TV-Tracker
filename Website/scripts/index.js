@@ -1,17 +1,14 @@
 //navbar stuff
-$('#createButton').on('click', function() 
-{
-	window.location.href = 'create.html';
+$('#createButton').on('click', function() {
+    window.location.href = 'create.html';
 });
-$('#accountButton').on('click', function() 
-{
-	window.location.href = 'account.html';
+$('#accountButton').on('click', function() {
+    window.location.href = 'account.html';
 });
-$('#logoffButton').on('click', function() 
-{
-    firebase.auth().signOut().then(function(){
-    window.location.href = 'login.html';
-    },function(error){
+$('#logoffButton').on('click', function() {
+    firebase.auth().signOut().then(function() {
+        window.location.href = 'login.html';
+    }, function(error) {
         console.log(error);
     });
 });
@@ -33,42 +30,54 @@ var database = firebase.database();
 var mediaDbDataList = database.ref('media/');
 //retrieve data
 //TODO - retrieve only curr user's data
-mediaDbDataList.on('child_added', function(data) 
-{
+mediaDbDataList.on('child_added', function(data) {
     var releaseDateTemp = new Date(0);
     releaseDateTemp.setUTCSeconds(data.val().releaseDate);
-    var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' +  releaseDateTemp.getFullYear();
-    if(data.val().uploader === email)
-    {
-	   table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, releaseDateStandard]).draw(false);
+    var releaseDateStandard = (releaseDateTemp.getMonth() + 1) + '/' + releaseDateTemp.getDate() + '/' + releaseDateTemp.getFullYear();
+    if (data.val().uploader === email) {
+        table.row.add([data.val().id, data.val().title, data.val().format, data.val().category, releaseDateStandard]).draw(false);
     }
 });
 
 //create datatable
 var table = $('#mediaTable').DataTable({
-	responsive: true,
-	columns: [
-            { title: "ID", width: "5%" },
-            { title: "Title", width: "34%" },
-            { title: "Format", width: "10%" },
-            { title: "Category", width: "10%" },
-            { title: "Release Date", width: "21%" }
-        ]
+    responsive: true,
+    columns: [{
+            title: "ID",
+            width: "5%"
+        },
+        {
+            title: "Title",
+            width: "34%"
+        },
+        {
+            title: "Format",
+            width: "10%"
+        },
+        {
+            title: "Category",
+            width: "10%"
+        },
+        {
+            title: "Release Date",
+            width: "21%"
+        }
+    ]
 });
 
 $('#mediaTable tbody').on('click', 'tr', function() {
     var selectedID = table.rows(this).data()[0][0];
-    window.location.href = 'edit.html?id='+selectedID;
+    window.location.href = 'edit.html?id=' + selectedID;
 });
 
 //Gets info of current user
-firebase.auth().onAuthStateChanged(function(user){
-    if(user){
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
         email = user.email;
         var uid = user.uid;
 
-        console.log(email+" "+" "+uid);
-    }else{
+        console.log(email + " " + " " + uid);
+    } else {
         console.log("not signed in");
     }
 })
